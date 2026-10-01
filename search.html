@@ -1201,7 +1201,7 @@ function alToplu(slug){
     c: e.cover || '',
     s: e.score || 0,
     y: e.year || 0,
-    g: (e.genres || []).slice(0, 4),
+    g: (e.genres || []),
     d: String(e.desc || '').slice(0, AL.DESC_UZUN)
   };
 }
@@ -1377,7 +1377,7 @@ async function alZenginlestir(slug, meta){
     const c = [];
     if (d.s) c.push(`<span class="gchip" title="AniList puanı">${ic('star')} ${(d.s/10).toFixed(1)}</span>`);
     if (d.y) c.push(`<span class="gchip">${d.y}</span>`);
-    (d.g||[]).forEach(g=> c.push(`<span class="gchip">${esc(g)}</span>`));
+    (d.g||[]).forEach(g=> c.push(`<span class="gchip">${turAdi(esc(g))}</span>`));
     const syn = d.d && d.d.length > 420 ? d.d.slice(0,417)+'…' : d.d;
     const el = document.createElement('div');
     el.className = 'ainfo';
@@ -1424,6 +1424,107 @@ const KATS = [
   {id:'sezon', ad:'Sezonluk seriler',   ic:'tv',     h:205, f:a=>a.eps>=14 && a.eps<=49},
   {id:'uzun',  ad:'Uzun soluklular',    ic:'layers', h:18,  f:a=>a.eps>=50}
 ];
+
+const TUR_ADLARI = {
+  'Action': 'Aksiyon',
+  'Adventure': 'Macera',
+  'Comedy': 'Komedi',
+  'Drama': 'Dram',
+  'Ecchi': 'Ecchi',
+  'Fantasy': 'Fantastik',
+  'Horror': 'Korku',
+  'Mahou': 'Büyü',
+  'Mecha': 'Mecha',
+  'Music': 'Müzik',
+  'Mystery': 'Gizem',
+  'Psychological': 'Psikolojik',
+  'Romance': 'Romantizm',
+  'Sci-Fi': 'Bilim Kurgu',
+  'SliceOfLife': 'Gündelik Yaşam',
+  'Slice of Life': 'Gündelik Yaşam',
+  'Sports': 'Spor',
+  'Supernatural': 'Doğaüstü',
+  'Thriller': 'Gerilim',
+  'Hentai': 'Hentai'
+};
+
+const TUR_RENKLERI = {
+  'Action': 350,
+  'Adventure': 35,
+  'Comedy': 55,
+  'Drama': 290,
+  'Ecchi': 315,
+  'Fantasy': 178,
+  'Horror': 0,
+  'Mahou': 265,
+  'Mecha': 205,
+  'Music': 145,
+  'Mystery': 220,
+  'Psychological': 190,
+  'Romance': 330,
+  'Sci-Fi': 205,
+  'Slice of Life': 80,
+  'Sports': 110,
+  'Supernatural': 250,
+  'Thriller': 15,
+  'Hentai': 300
+};
+
+function animeTurleri(a) {
+  const out = new Set();
+
+  try {
+    const t = window.__ANILIST__;
+
+    if (t && t[a.slug] && Array.isArray(t[a.slug].genres)) {
+      for (const g of t[a.slug].genres) {
+        if (g) out.add(String(g));
+      }
+    }
+  } catch(e) {}
+  
+  if (!out.size) {
+    try {
+      const k = alKayit(a.slug);
+      const g = k && k.d && Array.isArray(k.d.g) ? k.d.g : [];
+
+      for (const x of g) {
+        if (x) out.add(String(x));
+      }
+    } catch(e) {}
+  }
+
+  return [...out];
+}
+
+function turSayilari(){
+  const say = new Map();
+
+  for (const a of ANIME) {
+    for (const tur of animeTurleri(a)) {
+      say.set(tur, (say.get(tur)||0)+1);
+    }
+  }
+
+  return say;
+}
+
+function turFiltresi(tur){
+  return a => animeTurleri(a).includes(tur);
+}
+
+function turAdi(tur){
+  return TUR_ADLARI[tur] || tur;
+}
+
+function turSirala(a,b){
+  const sa = a[1];
+  const sb = b[1];
+
+  return sb-sa ||
+    turAdi(a[0]).localeCompare(turAdi(b[0]), 'tr');
+}
+
 let listFiltre = null, listPage = 1;
 
 function landingHtml(){
@@ -1478,6 +1579,14 @@ function listeleHtml(){
     const l = String(listFiltre.v).toLowerCase();
     if (l==='0'){ items = ANIME.filter(a=>/^[0-9]/.test(a.nTitle)); ad = '0-9'; }
     else { items = ANIME.filter(a=>a.nTitle.startsWith(l)); ad = listFiltre.v; }
+  } else if (listFiltre.t==='tur') {
+    const tur = String(listFiltre.v);
+
+    items = ANIME.filter(
+      a=>animeTurleri(a).includes(tur)
+    );
+
+    ad = turAdi(tur);
   } else {
     const k = KATS.find(x=>x.id===listFiltre.v);
     items = k ? ANIME.filter(k.f) : []; ad = k ? k.ad : '';
@@ -1616,7 +1725,7 @@ function renderAnimeler(){
 /* ============ M3: Kategoriler — harf kartları + hazır listeler ============ */
 function renderKategoriler(){
   document.title = 'Kategoriler | TürkAnime Arşiv';
-  KATS.forEach(k=>{ if (k.n==null) k.n = ANIME.filter(k.f).length; });
+  KATS.forEach(k=>{ k.n = ANIME.filter(k.f).length; });
   const harfSay = new Map();
   for (const a of ANIME){
     const c = (a.nTitle[0]||'');
@@ -1630,24 +1739,170 @@ function renderKategoriler(){
     const k = /[0-9]/.test(c) ? '0' : c.toUpperCase();
     harfSay.set(k, (harfSay.get(k)||0)+1);
   }
-  const harfKart = l=>`<a class="azcard" href="#/ara" data-harf="${l}"><b>${l==='0'?'0-9':l}</b><small>${(harfSay.get(l)||0).toLocaleString('tr-TR')}</small></a>`;
-  const enCokEps = ANIME.slice().sort((a,b)=> b.eps-a.eps || b.urls-a.urls || a.nTitle.localeCompare(b.nTitle,'tr')).slice(0,20);
-  const enCokUrl = ANIME.slice().sort((a,b)=> b.urls-a.urls || b.eps-a.eps || a.nTitle.localeCompare(b.nTitle,'tr')).slice(0,20);
+
+  const turSay = turSayilari();
+  const turler = [...turSay.entries()]
+    .filter(([,n])=>n>0)
+    .sort(turSirala);
+
+  const harfKart = l => `
+    <a
+      class="azcard"
+      href="#/ara"
+      data-harf="${l}"
+    >
+      <b>${l==='0'?'0-9':l}</b>
+      <small>${(harfSay.get(l)||0).toLocaleString('tr-TR')}</small>
+    </a>
+  `;
+  
+  const turKart = ([tur, sayi]) => {
+    const renk = TUR_RENKLERI[tur] ?? 200;
+
+    return `
+      <button
+        class="kat"
+        type="button"
+        style="--h:${renk}"
+        data-tur="${esc(tur)}"
+      >
+        ${ic('tag')}
+        <b>${esc(turAdi(tur))}</b>
+        <small>${sayi.toLocaleString('tr-TR')} seri</small>
+      </button>
+    `;
+  };
+
+  const enCokEps = ANIME
+    .slice()
+    .sort(
+      (a,b)=>
+        b.eps-a.eps ||
+        b.urls-a.urls ||
+        a.nTitle.localeCompare(b.nTitle,'tr')
+    )
+    .slice(0,20);
+
+  const enCokUrl = ANIME
+    .slice()
+    .sort(
+      (a,b)=>
+        b.urls-a.urls ||
+        b.eps-a.eps ||
+        a.nTitle.localeCompare(b.nTitle,'tr')
+    )
+    .slice(0,20);
+
   appEl().innerHTML = `
-    <h1 class="anime-title" style="font-size:22px;margin-bottom:10px">Kategoriler</h1>
-    <div class="kats">${KATS.map(k=>`<button class="kat" type="button" style="--h:${k.h}" data-kat="${k.id}">${ic(k.ic)}<b>${esc(k.ad)}</b><small>${k.n.toLocaleString('tr-TR')} seri</small></button>`).join('')}</div>
-    <div class="sh"><h2>Harfe göre gözat</h2></div>
-    <div class="azgrid">${'0ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(harfKart).join('')}</div>
-    <div class="sh"><h2>En çok bölümlü 20 anime</h2></div>
-    <div class="rail">${enCokEps.map(card).join('')}</div>
-    <div class="sh"><h2>En çok url'li 20 anime</h2></div>
-    <div class="rail">${enCokUrl.map(card).join('')}</div>`;
-  appEl().querySelectorAll('[data-kat]').forEach(el=>{
-    el.onclick = ()=> listeFiltreUygula({t:'kat', v:el.dataset.kat});
-  });
-  appEl().querySelectorAll('[data-harf]').forEach(el=>{
-    el.onclick = (ev)=>{ ev.preventDefault(); listeFiltreUygula({t:'harf', v:el.dataset.harf}); };
-  });
+    <h1
+      class="anime-title"
+      style="font-size:22px;margin-bottom:10px"
+    >
+      Kategoriler
+    </h1>
+
+    <div class="sh">
+      <h2>Türlere göre gözat</h2>
+    </div>
+
+    <div class="kats">
+      ${
+        turler.length
+          ? turler.map(turKart).join('')
+          : `
+            <div class="empty">
+              <div class="big">${ic('tag')}</div>
+              Tür bilgileri yükleniyor...
+            </div>
+          `
+      }
+    </div>
+
+    <div class="sh">
+      <h2>Diğer kategoriler</h2>
+    </div>
+
+    <div class="kats">
+      ${
+        KATS.map(k=>`
+          <button
+            class="kat"
+            type="button"
+            style="--h:${k.h}"
+            data-kat="${k.id}"
+          >
+            ${ic(k.ic)}
+            <b>${esc(k.ad)}</b>
+            <small>${k.n.toLocaleString('tr-TR')} seri</small>
+          </button>
+        `).join('')
+      }
+    </div>
+
+    <div class="sh">
+      <h2>Harfe göre gözat</h2>
+    </div>
+
+    <div class="azgrid">
+      ${
+        '0ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+          .split('')
+          .map(harfKart)
+          .join('')
+      }
+    </div>
+
+    <div class="sh">
+      <h2>En çok bölümlü 20 anime</h2>
+    </div>
+
+    <div class="rail">
+      ${enCokEps.map(card).join('')}
+    </div>
+
+    <div class="sh">
+      <h2>En çok URL'li 20 anime</h2>
+    </div>
+
+    <div class="rail">
+      ${enCokUrl.map(card).join('')}
+    </div>
+  `;
+
+  appEl()
+    .querySelectorAll('[data-kat]')
+    .forEach(el=>{
+      el.onclick = ()=>{
+        listeFiltreUygula({
+          t:'kat',
+          v:el.dataset.kat
+        });
+      };
+    });
+
+  appEl()
+    .querySelectorAll('[data-tur]')
+    .forEach(el=>{
+      el.onclick = ()=>{
+        listeFiltreUygula({
+          t:'tur',
+          v:el.dataset.tur
+        });
+      };
+    });
+
+  appEl()
+    .querySelectorAll('[data-harf]')
+    .forEach(el=>{
+      el.onclick = ev=>{
+        ev.preventDefault();
+
+        listeFiltreUygula({
+          t:'harf',
+          v:el.dataset.harf
+        });
+      };
+    });
 }
 
 /* ============ anime sayfası ============ */
