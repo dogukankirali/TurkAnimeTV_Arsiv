@@ -953,9 +953,7 @@ document.addEventListener('click', function(ev){
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="row" id="app"></div>
-    </div>
+    <div class="row" id="app"></div>
   </div>
 </article>
 
@@ -2099,6 +2097,17 @@ function landingHtml(){
           <div class="panel-body padding-none" style="height:270px; overflow:auto;">
             <ul class="menum">
               ${pop.slice(0,10).map((a,i)=>`<li><a class="baloon" href="#/anime/${encodeURIComponent(a.slug)}"><span class="label label-warning">${i+1}</span> ${esc(a.baslik||a.slug)} <span class="label pull-right">${(a.urls||0)+(a.masks||0)}</span></a></li>`).join('')}
+            </ul>
+          </div>
+          <div class="panel-footer clearfix"></div>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="panel">
+          <div class="panel-ust"><div class="panel-title">EN ÇOK BÖLÜMLÜ SERİLER</div></div>
+          <div class="panel-body padding-none" style="height:270px; overflow:auto;">
+            <ul class="menum">
+              ${uzun.slice(0,10).map((a,i)=>`<li><a class="baloon" href="#/anime/${encodeURIComponent(a.slug)}"><span class="label label-warning">${i+1}</span> ${esc(a.baslik||a.slug)} <span class="label pull-right">${a.eps}</span></a></li>`).join('')}
             </ul>
           </div>
           <div class="panel-footer clearfix"></div>
