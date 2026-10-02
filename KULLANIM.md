@@ -2,6 +2,12 @@
 
 Bu klasördeki sitenin ve araçların günlük kullanımı. Tarih: 2026-09-20.
 
+> ⚠️ **Bu kılavuz geliştiricinin kendi makinesi içindir.** `turkanime_*.py`,
+> `guncelle.ps1` / `yukle.ps1`, kaynak veritabanı ve `animeler/` bu depoda
+> **yoktur** (bkz. `.gitignore`; 02.10.2026 `git ls-files` ölçümü: 0 dosya).
+> Depo yalnızca yayınlanan site dosyalarını içerir: `search.html`, `b/` (6.107
+> dosya), `anilist.js`, `kaldirilan.js`, `eklenen.js`, `index.html`, `logo.png`.
+
 ---
 
 ## 1. Hızlı bakış: hangi dosya ne işe yarar?
@@ -9,13 +15,13 @@ Bu klasördeki sitenin ve araçların günlük kullanımı. Tarih: 2026-09-20.
 | Dosya | Ne işe yarar | Nerede |
 |---|---|---|
 | `search.html` | Arşiv sitesi (ara → anime → bölüm → player). `index.html` ona yönlendirir. | bu klasör |
-| `turkanime_yonet.py` | Link yönetimi: ölü işaretle, ekle, değiştir, geri al | bu klasör |
-| `turkanime_tum_kontrol.py` | Bütün linkleri otomatik kontrol eden sistem | bu klasör |
+| `turkanime_yonet.py` | Link yönetimi: ölü işaretle, ekle, değiştir, geri al | yerel makine (repoda yok) |
+| `turkanime_tum_kontrol.py` | Bütün linkleri otomatik kontrol eden sistem | yerel makine (repoda yok) |
 | `kaldirilan.js` / `eklenen.js` | Yönetim kararlarının dosyaya dökülmüş hali (site bunları okur) | bu klasör |
-| `kaldirilanlari_birlestir.py` | Birden fazla kaldırma listesini `kaldirilan.js`'te birleştirir | bu klasör |
-| `guncelle.ps1` / `yukle.ps1` | GitHub'a commit+push akışın | bu klasör |
+| `kaldirilanlari_birlestir.py` | Birden fazla kaldırma listesini `kaldirilan.js`'te birleştirir | yerel makine (repoda yok) |
+| `guncelle.ps1` / `yukle.ps1` | GitHub'a commit+push akışın | yerel makine (repoda yok) |
 | `b\` | Sitenin verisi: anime başına bir `.js` dosyası (6.107 adet) | bu klasör |
-| `animeler\` | Mirror'ın ham kopyası — sitede kullanılmıyor (sadece arşiv) | bu klasör |
+| `animeler\` | Mirror'ın ham kopyası — sitede kullanılmıyor (sadece arşiv) | yerel makine (repoda yok) |
 | `turkanime_b_uret.py` | Veritabanından `b\` dosyalarını yeniden üretir | Downloads |
 | `turkanime_ara.py` | Komut satırından anime arayıp linkleri döker | Downloads |
 | `turkanime_sunucu.py` | Opsiyonel local sunucu: site + m3u8/mp4 çözümleme API'si | Downloads |
@@ -201,6 +207,9 @@ Python (venv)               : C:\Users\naton\Downloads\.tk-test\Scripts\python.e
 Yayın adresi                : https://nutaliaxd.github.io/TurkAnimeTV_Arsiv/
 ```
 
-> **Not:** `animeler\` klasörü (83.489 dosya) sitede kullanılmıyor; git'e
-> ekli durumda. Repo boyutu/Pages limiti açısından ileride `git rm -r --cached
-> animeler/` ile takipten çıkarmayı düşün — kararı senin.
+> **Not (02.10.2026):** `animeler\` klasörü sitede kullanılmıyor ve artık git'te
+> **değildir** — depoda yalnızca `b/` (6.107 dosya) bulunur. Kaynak veritabanı da
+> repoya girmez; ölçülen güncel konum: `D:\Github projeleri\Ek Dosya - Turkanime
+> arsiv\turkanime_arsiv\turkanime.db` (681.984.000 bayt, + aynı klasörde
+> 486.579.818 baytlık `links.jsonl`).
+> Dokümandaki `C:\Users\naton\Downloads\...` yolları taşınmadan önceki konumlardır.
