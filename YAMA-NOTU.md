@@ -1,6 +1,70 @@
+# Yama Notu — 02.10.2026
+
+## 🎨 Bu güncelleme: TürkAnime'nin 2025-26 teması + aynı numaralı OVA bölümleri
+
+**Kısa sürüm (paylaşmak için):**
+
+> **🎨 Site artık kapanmadan önceki TürkAnime'nin son temasını kullanıyor.**
+> turkanime.tv 19 Eylül'de kapanmadan önce koyu zeminli, `#b22222` kırmızı
+> vurgulu, Arial yazı tipli son hâlini kullanıyordu. Bu tema birebir uygulandı;
+> sağ üstteki güneş/ay simgesiyle **açık temaya** geçilebiliyor ve seçim
+> tarayıcıda hatırlanıyor.
+>
+> **Bölüm listesindeki karışıklık giderildi.** Bazı animelerde OVA bölümleri ana
+> serinin bölümleriyle **aynı numarayı** taşıyordu; listede yan yana iki tane «#3»
+> görünüyor, hangisinin OVA olduğu anlaşılmıyordu. Artık OVA / Special / Final
+> bölümleri numaranın yanındaki küçük bir rozetle ayrılıyor.
+>
+> **Telefondaki yatay kaydırma hatası kapatıldı.** Üst çubuk 390 px'lik bir
+> telefonda 459 px'e taşıyordu (sayfa yana kayıyordu). Artık sığıyor.
+
+### Ayrıntılar
+
+**Tema**
+
+- Kaynak: Wayback anlık görüntüsü `20260814102725` → `style.css?v=3.3.0.23` +
+  `dark.css?v=3.3.0.23`. TürkAnime'nin 2025-26 canlı teması varsayılan olarak
+  koyuydu (`<body id="bd" class="dark">`, `theme-color:#222222`).
+- `:root` tokenları TürkAnime paletine çevrildi: zemin `#2e3039`, içerik
+  `#1e2026`, panel `#1D1F25`, üst çubuk `#23252C`, kenarlık `#22242b`,
+  metin `#c5c8ce`, vurgu **`#b22222`**.
+- İçerik genişliği 1180 → **1024 px** (TürkAnime `.container`).
+- Google Fonts kaldırıldı (Bricolage Grotesque + Figtree) → TürkAnime'nin kendi
+  `"Arial",Tahoma,Verdana,Helvetica,sans-serif` yığını; `font-size:1.1em`,
+  `line-height:1.475`, `font-weight:lighter`.
+- Açık tema `body.light` ile (`#d7d7d7` zemin, `#fff` içerik, `#eee` kartlar);
+  üst çubuk ve altbilgi TürkAnime'de olduğu gibi iki temada da koyu kalır.
+  Seçim `localStorage` anahtarı `ta-tema`.
+
+**Bölüm numarası çakışması**
+
+- Ölçüm: **65 dosya · 180 numara grubu · 365 kayıt** aynı `no`yu paylaşıyor.
+  Kaynak DB'de OVA/Special/Final bölümleri ana seriye 1'den yeniden numaralanmış.
+- Bağlantı adresi zaten `bolumIdFor` ile slug'a düşüyordu (davranış aynı kaldı);
+  yalnızca listede ayırt edici bir rozet eklendi. Rozet, grubun tamamı aynı
+  niteliği taşıyorsa gösterilmez (bilgi vermez).
+
+**Veri düzeltmeleri**
+
+| Dosya | Önce | Sonra |
+|---|---|---|
+| `b/one-piece-movie-6-omatsuri-danshaku-to-himitsu-no-shima.js` | 2 kayıt (ikincisinde 0 link) | 1 kayıt (4 link) |
+| `b/suki-na-mono-wa-suki-dakara-shou-ga-nai.js` 2. bölüm | player `VK`, URL `myvi.tv` | player `MYVI` |
+| INDEX bölüm sayısı | 71.689 | 71.688 |
+| INDEX ↔ `b/` uyuşmazlığı | 0 | 0 |
+| Link sayısı | 317.067 | 317.067 (değişmedi) |
+
+**Diğer**
+
+- README'deki `<!-- TODO: Ekran görüntüsü eklenecek -->` maddesi kapandı;
+  4 gerçek ekran görüntüsü `ekran-goruntuleri/` altında.
+- Üst çubuktaki arama kutusuna `min-width:0` eklendi (mobil yatay taşma).
+
+---
+
 # Yama Notu — 28.09.2026
 
-## 🔄 Bu güncelleme: MOBİL (28.09.2026 gece)
+## 🔄 Önceki güncelleme: MOBİL (28.09.2026 gece)
 
 **Kısa sürüm (paylaşmak için):**
 

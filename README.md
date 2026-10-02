@@ -11,8 +11,19 @@
 [![Anime](https://img.shields.io/badge/anime-6.107-green)](https://nutaliaxd.github.io/TurkAnimeTV_Arsiv/)
 [![Video Linki](https://img.shields.io/badge/video%20linki-317.067-blue)](https://nutaliaxd.github.io/TurkAnimeTV_Arsiv/)
 
-<!-- TODO: Ekran görüntüsü eklenecek -->
-  
+<img src="ekran-goruntuleri/anasayfa.png" alt="Ana sayfa: günün önerisi, kategori kartları ve anime listesi" width="900">
+
+<details>
+<summary><b>📸 Daha fazla ekran görüntüsü</b></summary>
+
+| Bölüm listesi — aynı numaralı OVA bölümleri rozetle ayrılır | Oynatıcı ve kaynak seçimi |
+|:--:|:--:|
+| ![Bölüm listesi](ekran-goruntuleri/bolum-listesi.png) | ![Oynatıcı](ekran-goruntuleri/oynatici.png) |
+| **Kategoriler** (+ açık tema) | |
+| ![Kategoriler](ekran-goruntuleri/kategoriler.png) | |
+
+</details>
+
 🔗 [**Canlı site**](https://nutaliaxd.github.io/TurkAnimeTV_Arsiv/)
 
 🔗 [**Database dosyalarını indirmek için tıkla**](https://github.com/Nutaliaxd/TurkAnimeTV_Arsiv/releases/tag/Turkanime.db)
@@ -53,7 +64,8 @@ Sitede bulunan animelerin tüm player (video) linkleri, fansub bilgileri, çevir
 - 🏷️ Kaldırılan linklerin herkes için gizlenmesi (`kaldirilan.js`), eklenen linklerde (`eklenen.js`) içinde bulunmaktadır. 
 - 🖼️ **AniList zenginleştirme**: kapak, banner, özet, puan, yıl ve tür bilgileri
 - 💾 **İndirme betikleri**: oynatıcıdaki **"Videoyu indir"** düğmesi (ve anime geneli indirme) seçilen bölüm/link için `yt-dlp` komutu içeren `.bat` / `.sh` betiği üretir; panoya kopyalama yedek yoldur.
-- 📱 **Mobil uyumlu arayüz** (28.09.2026 mobil turu: 40–44 px dokunma hedefleri, bölüm listesinde 200'lük sayfalama, geri tuşu düzeltmeleri), koyu tema; `search.html` `file://` ile çift tıklayarak da çalışır — gömülü oynatıcı üçüncü taraf engeline takılırsa **"Kaynak"** bağlantısını kullanın.
+- 🎨 **2025-26 TürkAnime görünümü**: turkanime.tv'nin kapanmadan önceki son teması (koyu varsayılan + açık tema anahtarı, `#b22222` vurgu, Arial yığını, 1024px içerik genişliği)
+- 📱 **Mobil uyumlu arayüz** (28.09.2026 mobil turu: 40–44 px dokunma hedefleri, bölüm listesinde 200'lük sayfalama, geri tuşu düzeltmeleri); `search.html` `file://` ile çift tıklayarak da çalışır — gömülü oynatıcı üçüncü taraf engeline takılırsa **"Kaynak"** bağlantısını kullanın.
 
 ## Site nasıl çalışıyor?
 
