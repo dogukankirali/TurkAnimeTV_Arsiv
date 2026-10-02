@@ -5,14 +5,25 @@
 
 # TurkAnimeTV Arşiv
 
-**turkanime.tv kapanınca arkasında devasa bir arşiv bıraktı. Bu proje, o arşivi kurtarmak ve erişilebilir kılmak amacıyla başlatıldı. Tamamen statik ve sunucusuz (Github-page üzerinden) çalışan izleme sitemizde 6.107 anime ve 317.068 video linki bulunuyor. Ayrıca projede yalnızca videoları değil; animelerin isimlerini, bölümlerin linklerinin, fansub gruplarının ve çevirmenlerin bilgilerini açık bir şekilde veritabanın da sunuyoruz.**
+**turkanime.tv kapanınca arkasında devasa bir arşiv bıraktı. Bu proje, o arşivi kurtarmak ve erişilebilir kılmak amacıyla başlatıldı. Tamamen statik ve sunucusuz (Github-page üzerinden) çalışan izleme sitemizde 6.107 anime ve 317.067 video linki bulunuyor. Ayrıca projede yalnızca videoları değil; animelerin isimlerini, bölümlerin linklerini, fansub gruplarının ve çevirmenlerin bilgilerini açık bir şekilde veritabanında sunuyoruz.**
 
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Fnutaliaxd.github.io%2FTurkAnimeTV_Arsiv%2F&label=canl%C4%B1%20site)](https://nutaliaxd.github.io/TurkAnimeTV_Arsiv/)
 [![Anime](https://img.shields.io/badge/anime-6.107-green)](https://nutaliaxd.github.io/TurkAnimeTV_Arsiv/)
-[![Video Linki](https://img.shields.io/badge/video%20linki-317.068-blue)](https://nutaliaxd.github.io/TurkAnimeTV_Arsiv/)
+[![Video Linki](https://img.shields.io/badge/video%20linki-317.067-blue)](https://nutaliaxd.github.io/TurkAnimeTV_Arsiv/)
 
-<!-- TODO: Ekran görüntüsü eklenecek -->
-  
+<img src="ekran-goruntuleri/anasayfa.png" alt="Ana sayfa: günün önerisi, kategori kartları ve anime listesi" width="900">
+
+<details>
+<summary><b>📸 Daha fazla ekran görüntüsü</b></summary>
+
+| Bölüm listesi — aynı numaralı OVA bölümleri rozetle ayrılır | Oynatıcı ve kaynak seçimi |
+|:--:|:--:|
+| ![Bölüm listesi](ekran-goruntuleri/bolum-listesi.png) | ![Oynatıcı](ekran-goruntuleri/oynatici.png) |
+| **Kategoriler** (+ açık tema) | |
+| ![Kategoriler](ekran-goruntuleri/kategoriler.png) | |
+
+</details>
+
 🔗 [**Canlı site**](https://nutaliaxd.github.io/TurkAnimeTV_Arsiv/)
 
 🔗 [**Database dosyalarını indirmek için tıkla**](https://github.com/Nutaliaxd/TurkAnimeTV_Arsiv/releases/tag/Turkanime.db)
@@ -24,11 +35,12 @@
 
 Bu proje şu an **aktif geliştirme aşamasındadır** ve henüz final sürümüne ulaşmamıştır. 
 
-Kullanım sırasında şunlarla karşılaşabilirsiniz:
-- Web sitesinde veya video oynatıcılarda çalışmayan/bozuk linkler.
-- Bazı animelerde eksik bölümler.
-- Github sayfası halen daha çok yetersiz
-- Dosya düzeni ayarlanması gerekiyor.
+Kullanım sırasında şunlarla karşılaşabilirsiniz (02.10.2026 denetiminde ölçülen sayılar):
+- Web sitesinde veya video oynatıcılarda çalışmayan/bozuk linkler; ölü bulunanlar `kaldirilan.js` ile gizlenir, denetimde biçimi bozuk link kalmadı.
+- 47 animede hiç bölüm kaydı yok; 1.633 bölümün hiç kaynak (link) kaydı yok.
+- 1.927 film/OVA/özel kaydı bölüm numarası taşımıyor (`no=null`; arayüzde ★ ile gösterilir).
+- 65.899 linkte fansub etiketi yok; 1.145 anime için AniList verisi yok.
+- GitHub sayfası hâlâ geliştirilecek; veri boru hattı (yerel `.py` araçları + kaynak veritabanı) bu depoda değil.
 
 Bu eksikliklerin farkındayım ve zaman içerisinde hepsini tek tek düzelteceğim. Projeyi tamamen bitmeden açık kaynak hale getirmemin sebebi; insanların rahatlıkla erişebileceği ve kullanabileceği bir kaynak sağlamaktır.
 
@@ -51,8 +63,9 @@ Sitede bulunan animelerin tüm player (video) linkleri, fansub bilgileri, çevir
 - 🏷️ Bölüm bazlı fansub + çevirmen bilgisi (kaynak çipleri ve player kartında görünür)
 - 🏷️ Kaldırılan linklerin herkes için gizlenmesi (`kaldirilan.js`), eklenen linklerde (`eklenen.js`) içinde bulunmaktadır. 
 - 🖼️ **AniList zenginleştirme**: kapak, banner, özet, puan, yıl ve tür bilgileri
-- ~~- 💾 **Bölüm veya tek link indirme**: yt-dlp komutlarını içeren `.bat` / `.sh` betiği üretir~~ (**DÜZENLENECEK!**)
-- ~~- 📱 Mobil uyumlu arayüz, koyu tema, `file://` ile çift tıklayarak da tam çalışır~~ (**DÜZENLENECEK!**)
+- 💾 **İndirme betikleri**: oynatıcıdaki **"Videoyu indir"** düğmesi (ve anime geneli indirme) seçilen bölüm/link için `yt-dlp` komutu içeren `.bat` / `.sh` betiği üretir; panoya kopyalama yedek yoldur.
+- 🎨 **2025-26 TürkAnime görünümü — iskelet birebir**: turkanime.tv'nin kapanmadan önceki son teması, kendi CSS yığınıyla (`assets/css/`) ve gerçek DOM iskeletiyle (navbar · `#arkaplan` · A→Z harf çubuğu · `.panel`/`.panel-tabs`/`.list-group-item` · `.Altkisim` altbilgi). Koyu varsayılan + açık tema anahtarı (`.toggleDark`), `#b22222` vurgu, Arial yığını, 1024px içerik genişliği.
+- 📱 **Mobil uyumlu arayüz** (28.09.2026 mobil turu: 40–44 px dokunma hedefleri, bölüm listesinde 200'lük sayfalama, geri tuşu düzeltmeleri); `search.html` `file://` ile çift tıklayarak da çalışır — gömülü oynatıcı üçüncü taraf engeline takılırsa **"Kaynak"** bağlantısını kullanın.
 
 ## Site nasıl çalışıyor?
 
@@ -77,9 +90,20 @@ Tarayıcı
 1. `kaldirilan.js` dosyasına ölü linki tek satır olarak ekleyin (GitHub web arayüzünden de düzenlenebilir),
 2. Pull request açın — onaylandıktan sonra link herkes için gizlenir; isterseniz [issue açarak](https://github.com/Nutaliaxd/TurkAnimeTV_Arsiv/issues) bize haber verin, biz elle düzeltebiliriz.
 
-## Kurulum (**DÜZENLENECEK!**)
+## Kurulum (yerel çalıştırma)
 
-Yakında düzenlenecek.
+Site tamamen **statiktir**; derleme adımı yoktur. Bir statik sunucu yeterlidir:
+
+```bash
+git clone https://github.com/Nutaliaxd/TurkAnimeTV_Arsiv.git
+cd TurkAnimeTV_Arsiv
+python -m http.server 8140
+# tarayıcı: http://127.0.0.1:8140/search.html
+```
+
+- `index.html`, kök isteğini `search.html`'e yönlendirir; `search.html`'e çift tıklamak da çalışır.
+- Bir anime seçildiğinde yalnızca ilgili `b/<slug>.js` dosyası JSONP olarak yüklenir; sunucu tarafında özel yapılandırma gerekmez.
+- `b/` dosyalarını üreten yerel araçlar ve kaynak veritabanı **bu depoda değildir** (bkz. `.gitignore`); depo yalnızca yayınlanan site dosyalarını içerir.
 
 ## Katkıda bulunanlar
 
