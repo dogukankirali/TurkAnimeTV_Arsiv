@@ -212,7 +212,11 @@ h1.anime-title{font:800 26px/1.25 var(--fd);letter-spacing:-.4px;margin-bottom:v
 /* 📱 DOKUNMA HEDEFLERİ: kuralları stilin SONUNDA, tek `@media (pointer:coarse)`
    bloğunda. Buraya koyulursa temel kurallar onları ezer (bkz. dosya sonundaki
    açıklama). Değişkenler `--tap` / `--tap-sm` ile tanımlı. */
-.btn{display:inline-flex;align-items:center;gap:7px;height:var(--btn-h);padding:0 var(--sp-4);border-radius:var(--rad-pill);background:var(--ac);color:var(--ac-ink);font-size:13.5px;font-weight:700;transition:filter .12s;cursor:pointer}
+/* ⚠ Ölçüm düzeltmesi (02.10.2026): bu kural TÜM `.btn`'leri 40px
+   yapıyordu → turkanime'in harf çubuğu `.btn.btn-default` (bootstrap
+   ölçüsü 30px) 10px uzun duruyor, `.panel-ust` 51px oluyordu
+   (referans 41px). Yalnız VARYANTSIZ `.btn` hedeflenir. */
+.btn:not(.btn-default):not(.btn-danger):not(.btn-info):not(.btn-warning):not(.btn-success):not(.btn-primary){display:inline-flex;align-items:center;gap:7px;height:var(--btn-h);padding:0 var(--sp-4);border-radius:var(--rad-pill);background:var(--ac);color:var(--ac-ink);font-size:13.5px;font-weight:700;transition:filter .12s;cursor:pointer}
 .btn:hover{filter:brightness(1.12);text-decoration:none}
 .btn.ghost{background:var(--card2);color:var(--tx2);border:1px solid var(--line);font-weight:600}
 .btn.ghost:hover{color:var(--ac2);border-color:var(--ac2);filter:none}
@@ -761,6 +765,55 @@ body.light #app .kat,body.light #app .azcard{background:#eee;border-color:#a9a9a
 #app #detayPaylas .table>tbody>tr>td{border-top:1px solid var(--line)}
 body.light #app #detayPaylas .table>tbody>tr>td{border-top:1px solid #ddd}
 #app .hero{background:var(--card2);border:1px solid var(--card2);border-radius:3px}
+
+/* ============================================================
+   🎞️ GERÇEK 2026 ANA SAYFA BİLEŞENLERİ (anasayfa_20260619135216.html)
+   ------------------------------------------------------------
+   ⭐ Ölçüm düzeltmesi (02.10.2026): ilk port `anasayfa_20260814102725.html`
+   (73 KB) dosyasını referans almıştı; arşivdeki **20260619135216** (108 KB)
+   dosyasında 23 .panel · 20 .list-group-item · 21 .thumbnail · 20
+   .media-heading ve `.top-airing-container` slayt şeridi var. 08-14 kopyası
+   eksik/lazy kalmış. Eksik bileşenler burada tamamlanıyor.
+
+   Slayt CSS'i (style.css `.top-airing-*`) zaten yüklü; eksik olan, Swiper'ın
+   ÇALIŞMA ANINDA yazdığı `swiper-wrapper`/`swiper-slide` ölçüleri. Swiper JS
+   yüklemiyoruz, o ölçüleri ve kaydırmayı burada taklit ediyoruz.
+   ============================================================ */
+.top-airing-slider .swiper-wrapper{display:flex;gap:10px;transition:transform .35s ease}
+.top-airing-slider .swiper-slide{width:111px;flex:0 0 auto}
+.top-airing-slider .swiper-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.top-airing-prev,.top-airing-next{cursor:pointer;justify-content:center}
+@media (max-width:767px){
+  .top-airing-slider .swiper-slide{width:111px}
+  #app .panel .col-md-6{float:none;width:100%}
+}
+
+/* --- kart ızgarası artık bootstrap sütunlarıyla ---
+   Kartlar turkanime'in kendi kartı (`.col-md-6.col-sm-6.col-xs-12`); `.grid`
+   bir CSS-grid değil, float temizleyen düz kapsayıcı olmalı. */
+#app .grid,#app .rail{display:block;margin:0}
+#app .grid:after,#app .rail:after{content:"";display:table;clear:both}
+#app .grid > .col-md-6 > .panel{box-shadow:0 0 5px var(--line)}
+
+/* --- `.menum` satırı turkanime'de `<a class="baloon">` içindedir ---
+   Ölçülen hata: ilk sürümde etiketler `<li>`nin doğrudan çocuğuydu ve
+   `span.label.pull-right` panelin DIŞINA taşıyordu (sağdaki sayılar kesiliyordu).
+   turkanime'in yapısı: <li><a class="baloon"><span class="label
+   label-warning">1</span> Başlık <span class="label pull-right">8</span></a></li> */
+#app .menum li > a{display:block;color:inherit;text-decoration:none;overflow:hidden}
+#app .menum li > a > .label.pull-right{font-weight:400}
+body.light #app .menum li > a{color:inherit}
+
+/* --- 📱 mobil menü: bootstrap `.nav > li{display:block}` bizim
+   `display:none`'u eziyordu → 1280px'te hamburger görünüyordu (ölçüldü). --- */
+header.navbar ul.nav > li.mobil-menu-ac{display:none}
+@media (max-width:767px){
+  header.navbar ul.nav > li.mobil-menu-ac{display:block}
+}
+
+/* --- `.sek` = sekme paneli gövdesi; kartlar (`.col-md-6`) float olduğu için
+   turkanime'in `.panel-body`'deki gibi float temizliği gerekir. --- */
+#app .sek:after{content:"";display:table;clear:both}
 </style>
 </head>
 <body id="bd" class="dark">
@@ -794,6 +847,23 @@ body.light #app #detayPaylas .table>tbody>tr>td{border-top:1px solid #ddd}
     if (!t) return;
     try{ localStorage.setItem(K, koyuMu() ? 'acik' : 'koyu'); }catch(e){}
     ciz();
+  });
+  /* 🔽 navbar açılır menüsü (turkanime `li.dropdown.basvuru-menu` karşılığı).
+     Bootstrap JS yok; `.open` sınıfını biz çeviriyoruz. Mobil menü kendi
+     handler'ında olduğu için onu dışarıda bırakıyoruz. */
+  document.addEventListener('click', function(ev){
+    var t = ev.target && ev.target.closest
+      ? ev.target.closest('header.navbar .dropdown-toggle:not(.mobil-menu-ac)') : null;
+    var aciklar = document.querySelectorAll('header.navbar li.dropdown.open');
+    if (!t){
+      aciklar.forEach(function(li){ if (!ev.target.closest('li.dropdown')) li.classList.remove('open'); });
+      return;
+    }
+    ev.preventDefault();
+    var li = t.closest('li.dropdown');
+    var acikti = li.classList.contains('open');
+    aciklar.forEach(function(x){ x.classList.remove('open'); });
+    li.classList.toggle('open', !acikti);
   });
   /* 📱 mobil menü (turkanime `.dropdown-menu.mobile`): bootstrap JS
      yüklemiyoruz, `open` sınıfını kendimiz çeviriyoruz. */
@@ -839,6 +909,16 @@ document.addEventListener('click', function(ev){
       <li><a class="logo" href="#/" data-nav="ana" title="TürkAnime Arşiv — ana sayfa"><i class="fa fa-home ikon-top"></i></a></li>
       <li><a href="#/animeler" data-nav="animeler" title="Tüm animeler (6.107)">ANİMELER</a></li>
       <li><a href="#/kategoriler" data-nav="kategoriler" title="Kategoriler, türler, harfler">KATEGORİLER</a></li>
+      <li class="dropdown arsiv-menu">
+        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">ARŞİV <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="KULLANIM.md" title="Kullanım kılavuzu">Kullanım</a></li>
+          <li><a href="YAMA-NOTU.md" title="Sürüm notları">Yama notu</a></li>
+          <li><a href="README.md" title="Arşiv hakkında">Hakkında</a></li>
+          <li class="divider"></li>
+          <li><a href="https://github.com/Nutaliaxd/TurkAnimeTV_Arsiv" target="_blank" rel="noopener">GitHub deposu</a></li>
+        </ul>
+      </li>
       <li><a href="javascript:void(0);" class="rnd" title="Rastgele anime">RASTGELE</a></li>
       <li><a href="https://github.com/Nutaliaxd/TurkAnimeTV_Arsiv/blob/main/KULLANIM.md" target="_blank" rel="noopener" title="Kullanım kılavuzu (S.S.S.)">S.S.S. <span class="label label-danger" style="position:absolute; top:5px; right:2px;">Yeni</span></a></li>
     </ul>
@@ -874,7 +954,7 @@ document.addEventListener('click', function(ev){
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-12" id="app"></div>
+      <div class="row" id="app"></div>
     </div>
   </div>
 </article>
@@ -1518,11 +1598,50 @@ function poster(a, sizes){
   return `<div class="poster" style="--h:${h};--g:${(h+35)%360}"><span class="pl">${esc(initials(t))}</span>${a.eps!=null?`<span class="pn">${a.eps} bölüm</span>`:''}${alPosterImg(a, sizes)}</div>`;
 }
 function card(a){
+  /* 🧱 TürkAnime'in GERÇEK anime kartı (anasayfa_20260619135216.html):
+       .col-md-6.col-sm-6.col-xs-12 > .panel.panel-visible
+         .panel-ust-ic > .panel-title > a.baloon      → başlık
+         .panel-body(150px, overflow:hidden)
+           a.thumbnail.pull-left > img(90x128)        → kapak
+           span.media-heading > a                     → başlık (kısa)
+           .row > span.bold.media-object              → "Çeviri Fansub" yerine bölüm sayısı
+                  span.media-object > i.fa-angle-right → "Çeviri : X / link"
+                  span.media-object > i.fa-clock       → zaman satırı yerine arşiv durumu
+     ⚠ turkanime'in kartındaki "Çeviri : <fansub>" ve "yaklaşık X saat önce
+     eklendi" satırları bölüm/fansub bazlı veridir; bu arşivde link verisi
+     bölüm düzeyinde tutulduğu için aynı üç satır BÖLÜM ve KAYNAK bilgisiyle
+     dolduruluyor (uydurma fansub/tarih yazmıyoruz). */
   const bos = (a.urls||0) + (a.masks||0) === 0;
-  const urlYok = !bos && (a.urls||0) === 0;
-  const isaret = bos ? `<span class="nolk big" title="bu seride hiç oynatılabilir link kalmadı">${ic('ban')} link yok</span>`
-              : urlYok ? `<span class="nolk" title="oynatılabilir url linki kalmadı (yalnız site içi player)">${ic('ban')} url yok</span>` : '';
-  return `<a class="card" href="#/anime/${encodeURIComponent(a.slug)}">${poster(a, SZ_GRID)}<span class="ct">${esc(a.baslik||a.slug)}</span><span class="cs">${esc((a.top||[]).slice(0,2).join(', ')||'kaynak yok')}</span>${isaret}</a>`;
+  const href = '#/anime/' + encodeURIComponent(a.slug);
+  const t = alToplu(a.slug);
+  const kapak = t && t.c ? t.c : '';
+  const gorsel = kapak
+    ? `<img class="media-object" style="width:90px; height:128px;" width="90" height="128" loading="lazy" decoding="async" src="${esc(kapak)}" alt="">`
+    : poster(a, SZ_GRID);
+  const oynatici = (a.top||[]).slice(0,2).join(' / ') || 'kaynak kaydı yok';
+  const rozet = bos
+    ? `<span class="label label-danger" title="bu seride oynatılabilir link kalmadı">link yok</span>`
+    : ((a.urls||0)===0 ? `<span class="label label-warning" title="yalnız site içi player (url linki yok)">url yok</span>` : '');
+  const ad = a.baslik || a.slug;
+  return `<div class="col-md-6 col-sm-6 col-xs-12" style="padding:5px;">
+  <div class="panel panel-visible" style="margin-bottom:5px;">
+    <div class="panel-ust-ic">
+      <div class="panel-title"><a class="baloon" href="${href}" title="${esc(ad)}">${esc(ad)}</a></div>
+    </div>
+    <div class="panel-body" style="padding:5px; height:150px; overflow:hidden;">
+      <a class="thumbnail pull-left" href="${href}" style="margin-right:5px;">${gorsel}</a>
+      <span class="media-heading" style="font-weight:normal;">
+        <a href="${href}">${esc(ad.length>34 ? ad.slice(0,34)+' ...' : ad)}</a>
+        <span class="pull-right">${rozet}</span>
+      </span>
+      <div class="row" style="padding:0px; margin:0px;">
+        <span class="bold media-object" style="margin-top:7px;">${a.eps ? esc(a.eps)+' bölüm' : 'bölüm kaydı yok'}</span>
+        <span class="media-object" style="margin-top:5px;"><i class="fa fa-angle-right"></i> Kaynak : ${esc(oynatici)} / ${(a.urls||0)+(a.masks||0)} link</span>
+        <span class="media-object" style="margin-top:5px;"><i class="fa fa-clock"></i> ${a.eps ? 'arşivde '+esc(a.eps)+' bölüm açılıyor' : 'arşivde bölüm açılmıyor'}</span>
+      </div>
+    </div>
+  </div>
+</div>`;
 }
 
 /* ============ AniList zenginleştirme (PR1'den alındı) ============
@@ -1877,98 +1996,158 @@ function landingHtml(){
   const d = pickSome(goodPool(), 1, dayKey()+dailyShift*7919)[0] || ANIME[0];
   _landingD = d;
   const rec = pickSome(goodPool(), 14, dayKey()*3+recShift);
+  const pop = ANIME.slice().sort((a,b)=> (b.urls+b.masks)-(a.urls+a.masks) || b.eps-a.eps).slice(0,14);
+  const uzun = ANIME.slice().sort((a,b)=> b.eps-a.eps).slice(0,14);
   KATS.forEach(k=>{ if (k.n==null) k.n = ANIME.filter(k.f).length; });
   const eps = ANIME.reduce((n,a)=>n+a.eps,0), links = ANIME.reduce((n,a)=>n+a.urls+a.masks,0);
   const fmt = n=>n.toLocaleString('tr-TR');
   const href = '#/anime/'+encodeURIComponent(d.slug);
-  /* 🧱 TürkAnime ana sayfa iskeleti (anasayfa_20260814102725.html):
-     `.col-xs-8` içinde `#orta-sekme.panel-tabs` sekmeli panel + `#orta-icerik`,
-     `.col-xs-4` yan kolonda `.menum` listeleri. Sekmeler turkanime'deki
-     `data-toggle="tab"` mantığıyla, bootstrap JS olmadan çalışır. */
+  const turler = [...turSayilari().entries()].sort((a,b)=>b[1]-a[1]).slice(0,24);
+  /* slayt şeridi: turkanime'in "top airing" şeridi kapak görseliyle çalışır;
+     biz de kapağı OLAN (AniList) serileri öne alıyoruz, gün başına sabit seçim. */
+  const kapakli = ANIME.filter(a=>{ const t = alToplu(a.slug); return !!(t && t.c); });
+  const slaytlar = pickSome(kapakli.length > 12 ? kapakli : ANIME, 12, dayKey());
+  /* 🧱 Gerçek ana sayfa iskeleti (anasayfa_20260619135216.html):
+     #arkaplan > .row > .col-xs-12.top-airing-container (slayt)
+               > .row > .col-xs-8 (.col-xs-6 + .col-xs-6 + .col-xs-12 sekmeli panel)
+                      + .col-xs-4 (`.list-group` + `#aktif-sekme` + `.menum`) */
   return `
+  <div class="col-xs-12 top-airing-container">
+    <div class="swiper-container top-airing-slider">
+      <div class="swiper-wrapper" id="taSerit" style="margin-left:10px;">
+        ${slaytlar.map(a=>{
+          const t = alToplu(a.slug);
+          const g = (t && t.c) || '';
+          return `<div class="swiper-slide">
+          <a class="top-airing-item" href="#/anime/${encodeURIComponent(a.slug)}"
+             data-title="${esc(a.baslik||a.slug)}" data-bolum="${a.eps}" data-img="${esc(g)}">
+            ${g ? `<img src="${esc(g)}" loading="lazy" decoding="async" width="221" height="325" alt="">` : poster(a, SZ_RAY)}
+            <div class="top-airing-overlay"><span class="top-airing-title">${esc(a.baslik||a.slug)}</span></div>
+          </a>
+        </div>`; }).join('')}
+      </div>
+    </div>
+    <div class="top-airing-prev" id="taPrev" role="button" tabindex="0" aria-label="Önceki"><i class="fa fa-chevron-left"></i></div>
+    <div class="top-airing-next" id="taNext" role="button" tabindex="0" aria-label="Sonraki"><i class="fa fa-chevron-right"></i></div>
+  </div>
   <div class="col-xs-8">
-    <div class="col-xs-12" style="padding:5px;">
-      <div class="panel">
-        <div class="panel-ust"><div class="panel-title">TÜRK ANİME ARŞİV</div></div>
-        <div class="panel-menu">
-          <ul class="nav panel-tabs nav-justified" id="orta-sekme">
-            <li class="active"><a href="javascript:void(0);" data-sek="gun" data-div="orta-icerik" data-toggle="tab">Günün Önerisi</a></li>
-            <li><a href="javascript:void(0);" data-sek="oner" data-div="orta-icerik" data-toggle="tab">Öneri Serileri</a></li>
-            <li><a href="javascript:void(0);" data-sek="kat" data-div="orta-icerik" data-toggle="tab">Kategoriler</a></li>
-            <li><a href="javascript:void(0);" data-sek="pop" data-div="orta-icerik" data-toggle="tab">Popüler Animeler</a></li>
-          </ul>
-        </div>
-        <div class="panel-body" id="orta-icerik">
-          <div class="col-xs-12 sek" data-sek="gun" style="padding:5px;">
-    <section class="feat" style="--h:${hueOf(d.slug)};--g:${(hueOf(d.slug)+35)%360}">
-      <a class="fposter" href="${href}" aria-label="${esc(d.baslik)}">${poster(d, SZ_FPOS)}</a>
-      <div class="ftext">
-        <span class="flabel">${ic('sun')} Günün önerisi</span>
-        <h1>${esc(d.baslik)}</h1>
-        <div class="fmeta"><span>${ic('film')}${d.eps} bölüm</span><span>${ic('link')}${fmt(d.urls+d.masks)} kaynak</span></div>
-        ${d.top.length?`<div class="players-chips">${d.top.map(p=>`<span class="pchip">${esc(p)}</span>`).join('')}</div>`:''}
-        <div class="facts">
-          <a class="btn" href="${href}">${ic('play')} İzlemeye başla</a>
-          <button class="btn ghost" id="dailyNext" type="button">${ic('shuffle')} Başka öner</button>
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="panel">
+          <div class="panel-ust"><div class="panel-title">GÜNÜN ÖNERİSİ</div></div>
+          <div class="panel-body" style="height:250px; overflow:hidden;">
+            <a class="fposter thumbnail pull-left" href="${href}" style="margin-right:8px;">${poster(d, SZ_FPOS)}</a>
+            <span class="media-heading"><a href="${href}">${esc(d.baslik)}</a></span>
+            <div class="row" style="padding:0px; margin:0px;">
+              <span class="bold media-object" style="margin-top:7px;">${d.eps} bölüm · ${fmt(d.urls+d.masks)} kaynak</span>
+              ${(d.top||[]).slice(0,3).map(p=>`<span class="media-object" style="margin-top:5px;"><i class="fa fa-angle-right"></i> ${esc(p)}</span>`).join('')}
+            </div>
+            <div class="facts" style="margin-top:8px;">
+              <a class="btn btn-danger btn-sm" href="${href}">İzlemeye başla</a>
+              <button class="btn btn-default btn-sm" id="dailyNext" type="button">Başka öner</button>
+            </div>
+          </div>
+          <div class="panel-footer clearfix"></div>
         </div>
       </div>
-    </section>
+      <div class="col-xs-6">
+        <div class="panel">
+          <div class="panel-ust"><div class="panel-title">ARŞİV DURUMU</div></div>
+          <div class="panel-body padding-none" style="height:250px; overflow:visible;">
+            <div class="list-group">
+              <div class="list-group-item"><h4 class="list-group-item-heading" style="margin:0;">Animeler</h4><span class="text-muted pull-right">${fmt(ANIME.length)}</span></div>
+              <div class="list-group-item"><h4 class="list-group-item-heading" style="margin:0;">Bölümler</h4><span class="text-muted pull-right">${fmt(eps)}</span></div>
+              <div class="list-group-item"><h4 class="list-group-item-heading" style="margin:0;">Oynatma kaynağı</h4><span class="text-muted pull-right">${fmt(links)}</span></div>
+              <div class="list-group-item"><h4 class="list-group-item-heading" style="margin:0;">Kategori / tür</h4><span class="text-muted pull-right">${KATS.length} / ${turler.length}</span></div>
+            </div>
           </div>
-          <div class="col-xs-12 sek hide" data-sek="oner" style="padding:5px;">
-            <div class="sh"><h2>Öneri serileri</h2><button class="btn ghost sm" id="recNext" type="button">${ic('rotate')} Yenile</button></div>
-            <div class="rail">${rec.map(card).join('')}</div>
-          </div>
-          <div class="col-xs-12 sek hide" data-sek="kat" style="padding:5px;">
-            <div class="kats">${KATS.map(k=>`<button class="kat" type="button" style="--h:${k.h}" data-kat="${k.id}">${ic(k.ic)}<b>${esc(k.ad)}</b><small>${fmt(k.n)} seri</small></button>`).join('')}</div>
-          </div>
-          <div class="col-xs-12 sek hide" data-sek="pop" style="padding:5px;">
-            <div class="sh"><h2>En çok kaynaklı 20 anime</h2></div>
-            <div class="rail">${ANIME.slice().sort((a,b)=>(b.urls+b.masks)-(a.urls+a.masks)).slice(0,20).map(card).join('')}</div>
-          </div>
+          <div class="panel-footer clearfix"></div>
         </div>
-        <div class="panel-footer clearfix"></div>
+      </div>
+      <div class="col-xs-12">
+        <div class="panel">
+          <div class="panel-ust"></div>
+          <div class="panel-menu">
+            <ul class="nav panel-tabs nav-justified" id="orta-sekme">
+              <li class="active"><a href="javascript:void(0);" data-sek="oner" data-div="orta-icerik" data-toggle="tab">Öneri Serileri</a></li>
+              <li><a href="javascript:void(0);" data-sek="pop" data-div="orta-icerik" data-toggle="tab">Popüler Animeler</a></li>
+              <li><a href="javascript:void(0);" data-sek="uzun" data-div="orta-icerik" data-toggle="tab">En Çok Bölümlü</a></li>
+              <li><a href="javascript:void(0);" data-sek="kats" data-div="orta-icerik" data-toggle="tab">Kategoriler</a></li>
+            </ul>
+          </div>
+          <div class="panel-body" id="orta-icerik">
+            <div class="sek" data-sek="oner">${rec.map(card).join('')}
+              <div class="clearfix"></div>
+              <div style="padding:5px;"><button class="btn btn-default btn-sm" id="recNext" type="button">Yenile</button></div>
+            </div>
+            <div class="sek hide" data-sek="pop">${pop.map(card).join('')}<div class="clearfix"></div></div>
+            <div class="sek hide" data-sek="uzun">${uzun.map(card).join('')}<div class="clearfix"></div></div>
+            <div class="sek hide" data-sek="kats">
+              <div class="kats">${KATS.map(k=>`<button class="kat" type="button" style="--h:${k.h}" data-kat="${k.id}">${ic(k.ic)}<b>${esc(k.ad)}</b><small>${fmt(k.n)} seri</small></button>`).join('')}</div>
+            </div>
+          </div>
+          <div class="panel-footer clearfix"></div>
+        </div>
       </div>
     </div>
   </div>
   <div class="col-xs-4">
-    <div class="col-xs-12" style="padding:5px;">
-      <div class="panel">
-        <div class="panel-ust"><div class="panel-title">ARŞİV DURUMU</div></div>
-        <div class="panel-body padding-none">
-          <ul class="menum">
-            <li><span class="label label-warning">1</span> anime <span class="label pull-right">${fmt(ANIME.length)}</span></li>
-            <li><span class="label label-warning">2</span> bölüm <span class="label pull-right">${fmt(eps)}</span></li>
-            <li><span class="label label-warning">3</span> oynatma kaynağı <span class="label pull-right">${fmt(links)}</span></li>
-          </ul>
-        </div>
-        <div class="panel-footer clearfix"></div>
-      </div>
-    </div>
-    <div class="col-xs-12" style="padding:5px;">
-      <div class="panel">
-        <div class="panel-ust"></div>
-        <div class="panel-menu">
-          <ul class="nav panel-tabs nav-justified" id="aktif-sekme">
-            <li class="active"><a href="javascript:void(0);" data-sek="harf" data-div="aktif-icerik" data-toggle="tab">Harfler</a></li>
-            <li><a href="javascript:void(0);" data-sek="tur" data-div="aktif-icerik" data-toggle="tab">Türüne Göre</a></li>
-          </ul>
-        </div>
-        <div class="panel-body padding-none" id="aktif-icerik">
-          <div id="filtre-harf" class="sek">
-            <div class="az"><button type="button" data-harf="0">0-9</button>${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l=>`<button type="button" data-harf="${l}">${l}</button>`).join('')}</div>
-          </div>
-          <div id="filtre-tur" class="sek hide">
-            <ul class="list-group">
-              ${[...turSayilari().entries()].sort((a,b)=>b[1]-a[1]).slice(0,24).map(([t,n])=>`<li class="list-group-item" style="cursor:pointer" data-tur="${esc(t)}"><h4 class="list-group-item-heading" style="margin:0">${esc(turAdi(t))}</h4><span class="text-muted pull-right">${n} seri</span></li>`).join('')}
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel">
+          <div class="panel-ust"><div class="panel-title">EN ÇOK KAYNAKLI SERİLER</div></div>
+          <div class="panel-body padding-none" style="height:270px; overflow:auto;">
+            <ul class="menum">
+              ${pop.slice(0,10).map((a,i)=>`<li><a class="baloon" href="#/anime/${encodeURIComponent(a.slug)}"><span class="label label-warning">${i+1}</span> ${esc(a.baslik||a.slug)} <span class="label pull-right">${(a.urls||0)+(a.masks||0)}</span></a></li>`).join('')}
             </ul>
           </div>
+          <div class="panel-footer clearfix"></div>
         </div>
-        <div class="panel-footer clearfix"></div>
+      </div>
+      <div class="col-xs-12">
+        <div class="panel">
+          <div class="panel-ust"></div>
+          <div class="panel-menu">
+            <ul class="nav panel-tabs nav-justified" id="aktif-sekme">
+              <li class="active"><a href="javascript:void(0);" data-sek="harf" data-div="aktif-icerik" data-toggle="tab">Harfler</a></li>
+              <li><a href="javascript:void(0);" data-sek="tur" data-div="aktif-icerik" data-toggle="tab">Türüne Göre</a></li>
+            </ul>
+          </div>
+          <div class="panel-body padding-none" id="aktif-icerik">
+            <div class="sek" data-sek="harf">
+              <div class="az"><button type="button" data-harf="0">0-9</button>${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l=>`<button type="button" data-harf="${l}">${l}</button>`).join('')}</div>
+            </div>
+            <div class="sek hide" data-sek="tur">
+              <ul class="list-group">
+                ${turler.map(([t,n])=>`<li class="list-group-item" style="cursor:pointer" data-tur="${esc(t)}"><h4 class="list-group-item-heading" style="margin:0;">${esc(turAdi(t))}</h4><span class="text-muted pull-right">${n} seri</span></li>`).join('')}
+              </ul>
+            </div>
+          </div>
+          <div class="panel-footer clearfix"></div>
+        </div>
       </div>
     </div>
   </div>`;
 }
 function bindLanding(){
+  /* 🎞️ slayt şeridi: Swiper JS yüklemiyoruz — kendi kaydırmamız.
+     (turkanime'in kendi CSS'i `.top-airing-item` görünümünü veriyor;
+     eksik olan yalnız kaydırma davranışıydı.) */
+  const serit = document.getElementById('taSerit');
+  if (serit){
+    let ix = 0;
+    const adim = ()=>{ const s = serit.querySelector('.swiper-slide');
+      return s ? Math.round(s.getBoundingClientRect().width) + 10 : 121; };
+    const git = ()=>{
+      const mak = Math.max(0, serit.scrollWidth - serit.parentElement.clientWidth);
+      const son = Math.ceil(mak / adim());
+      ix = Math.max(0, Math.min(ix, son));
+      serit.style.transform = 'translateX(' + (-ix * adim()) + 'px)';
+    };
+    const p = document.getElementById('taPrev'), n = document.getElementById('taNext');
+    if (p) p.onclick = ()=>{ ix--; git(); };
+    if (n) n.onclick = ()=>{ ix++; git(); };
+  }
   /* 🧱 turkanime `.panel-tabs` sekme davranışı (data-div = hedef panel) */
   ['orta-sekme','aktif-sekme'].forEach(id=>{
     const ul = document.getElementById(id); if (!ul) return;
@@ -2118,7 +2297,7 @@ function renderAnimeler(){
   const slice = items.slice((anPage-1)*PAGE, anPage*PAGE);
   appEl().innerHTML = `
   <div class="col-xs-12">
-  <div class="col-xs-12" style="padding:5px;">
+  <div class="col-xs-12">
   <div class="panel">
     <div class="panel-ust"><div class="panel-title">ANİMELER</div></div>
     <div class="panel-body">
@@ -2229,7 +2408,7 @@ function renderKategoriler(){
 
   appEl().innerHTML = `
   <div class="col-xs-12">
-  <div class="col-xs-12" style="padding:5px;">
+  <div class="col-xs-12">
   <div class="panel">
     <div class="panel-ust"><div class="panel-title">KATEGORİLER</div></div>
     <div class="panel-body">
@@ -2375,7 +2554,7 @@ function renderAnime(slug, data){
                               + `#aktif-icerik.panel-body.padding-none` (style.css:235) */
   appEl().innerHTML = `
   <div class="col-xs-8">
-  <div class="col-xs-12" style="padding:5px;">
+  <div class="col-xs-12">
   <div class="panel" id="detayPaylas">
     <div class="panel-ust"><div class="panel-title">${esc(meta.baslik)}</div></div>
     <div class="panel-body">
@@ -2412,7 +2591,7 @@ function renderAnime(slug, data){
   </div>
   </div>
   ${data.length?`
-  <div class="col-xs-12" style="padding:5px;">
+  <div class="col-xs-12">
     <div class="panel">
       <div class="panel-ust"><div class="panel-title">BÖLÜMLER</div></div>
       <div class="panel-menu">
@@ -2432,7 +2611,7 @@ function renderAnime(slug, data){
   </div>
   </div>
   <div class="col-xs-4">
-    <div class="col-xs-12" style="padding:5px;">
+    <div class="col-xs-12">
       <div class="panel">
         <div class="panel-ust"><div class="panel-title">SERİ</div></div>
         <div class="panel-body padding-none">
@@ -2445,9 +2624,9 @@ function renderAnime(slug, data){
         <div class="panel-footer clearfix"></div>
       </div>
     </div>
-    <div class="col-xs-12" style="padding:5px;">${relatedHtml(slug)}</div>
+    <div class="col-xs-12">${relatedHtml(slug)}</div>
   </div>
-  `:`<div class="col-xs-12" style="padding:5px;"><div class="empty"><div class="big">${ic('film')}</div>Bu animede bölüm kaydı yok.</div></div>`}
+  `:`<div class="col-xs-12"><div class="empty"><div class="big">${ic('film')}</div>Bu animede bölüm kaydı yok.</div></div>`}
   `;
   document.title = `${meta.baslik} izle — tüm bölümler | TürkAnime Arşiv`;
   const ib = $('#indirBtn');
@@ -2652,10 +2831,22 @@ function relCard(a){
     <span class="cs">${esc(a.eps?a.eps+' bölüm':'bölüm yok')}</span></a>`;
 }
 function relatedHtml(slug){
+  /* 🧱 turkanime'in yan kolon dili: `.panel > .panel-ust > .panel-title`
+     + `.panel-body.padding-none > .list-group > a.list-group-item` */
   const rel = relatedOf(slug);
   if (!rel.length) return '';
-  return `<div class="sh"><h2>Bağlantılı seriler</h2><span style="color:var(--tx3);font-size:12.5px">${rel.length} seri</span></div>
-    <div class="rail">${rel.map(relCard).join('')}</div>`;
+  return `<div class="panel">
+    <div class="panel-ust"><div class="panel-title">BAĞLANTILI SERİLER (${rel.length})</div></div>
+    <div class="panel-body padding-none" style="max-height:420px; overflow:auto;">
+      <div class="list-group">
+        ${rel.map(a=>{ const tg = relTag(a); return `<a class="list-group-item" href="#/anime/${encodeURIComponent(a.slug)}">
+          <h4 class="list-group-item-heading" style="margin:0;">${esc(a.baslik||a.slug)}</h4>
+          ${tg?`<span class="label label-warning">${esc(tg)}</span> `:''}<span class="text-muted">${a.eps ? a.eps+' bölüm' : 'bölüm kaydı yok'}</span>
+        </a>`; }).join('')}
+      </div>
+    </div>
+    <div class="panel-footer clearfix"></div>
+  </div>`;
 }
 
 /* ============ önceki / sonraki bölüm ============ */
@@ -2902,7 +3093,7 @@ function renderOptions(slug, data, bolumId){
   const ilkUrl = firstUrlLink(ep) || bolumIndirLinki(slug, ep);   // eklenenler de aday (PR1)
   appEl().innerHTML = `
   <div class="col-xs-12">
-  <div class="col-xs-12" style="padding:5px;">
+  <div class="col-xs-12">
   <div class="panel">
     <div class="panel-ust"><div class="panel-title">TÜM SEÇENEKLER</div></div>
     <div class="panel-body">
@@ -3223,7 +3414,7 @@ function renderPlayer(slug, data, bolumId, playerName, idxStr){
      (Tarih/Önceki Bölüm/Sonraki Bölüm) ve yan kolonda bölüm listesi. */
   appEl().innerHTML = `
   <div class="col-xs-8">
-  <div class="col-xs-12" style="padding:5px;">
+  <div class="col-xs-12">
     <div class="panel">
       <div class="panel-ust">
         ${crumb}
@@ -3244,7 +3435,7 @@ function renderPlayer(slug, data, bolumId, playerName, idxStr){
   </div>
   <div class="col-xs-4">${epSideHtml(slug, data, ep)}</div>
   <div class="col-xs-12">
-    <div class="col-xs-12" style="padding:5px;">
+    <div class="col-xs-12">
       <div class="panel">
         <div class="panel-ust"><div class="panel-title">KAYNAK</div></div>
         <div class="panel-body">

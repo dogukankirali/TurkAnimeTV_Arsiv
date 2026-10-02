@@ -20,6 +20,54 @@
 
 ### Ayrıntılar
 
+**Tema — iskelet birebir (3. tur: gerçek 2026 kopyası + kart yapısı)**
+
+- ⭐ **Ölçüm düzeltmesi.** 2. turda referans olarak
+  `anasayfa_20260814102725.html` (73 KB) alınmıştı. Arşivde aynı sitenin
+  **`anasayfa_20260619135216.html` (108 KB)** kopyası var ve onda çok daha
+  fazla bileşen bulunuyor (sınıf sayımı): `.panel` 23→17, `.panel-ust` 12→7,
+  `.panel-title` 18→13, **`.list-group-item` 20→0**, `.thumbnail` 21→10,
+  `.media-heading` 20→10. Yani 08-14 kopyası eksik/lazy kalmış; gerçek tasarım
+  06-19'da.
+- Eksik bileşenler tamamlandı:
+  - **Slayt şeridi** — `.col-xs-12.top-airing-container > .swiper-container
+    .top-airing-slider > .swiper-wrapper > .swiper-slide > a.top-airing-item >
+    img + .top-airing-overlay > span.top-airing-title` + `.top-airing-prev`
+    /`.top-airing-next`. Swiper JS yüklenmiyor; CSS zaten turkanime'den geliyor,
+    yalnız Swiper'ın çalışma anında yazdığı slayt ölçüsü (111 px) ve kaydırma
+    taklit edildi. Kapaklar AniList'ten (kapağı olmayan seri şeride girmiyor).
+  - **Turkanime'in gerçek kartı** — `.col-md-6.col-sm-6.col-xs-12 >
+    .panel.panel-visible > .panel-ust-ic > .panel-title > a.baloon` +
+    `.panel-body > a.thumbnail.pull-left > img(90×128)` + `span.media-heading`
+    + `.row > span.bold.media-object / i.fa-angle-right / i.fa-clock`.
+    Kart, arama sonuçları/liste/öneri ızgarasının tamamında kullanılıyor.
+    ⚠ Karttaki “Çeviri : &lt;fansub&gt;” ve “yaklaşık X saat önce eklendi”
+    satırları bölüm/fansub düzeyinde veri ister; bu arşivde link verisi bölüm
+    düzeyinde tutulduğu için aynı satırlar bölüm ve kaynak bilgisiyle
+    dolduruldu — uydurma fansub/tarih yazılmadı.
+  - **Ana sayfa düzeni** — `.col-xs-8` içinde `.col-xs-6 + .col-xs-6`
+    (GÜNÜN ÖNERİSİ / ARŞİV DURUMU) ve altında `#orta-sekme` sekmeli panel;
+    `.col-xs-4` yan kolonda `.list-group` (arşiv durumu) + `#aktif-sekme`
+    (Harfler / Türüne Göre) + `.menum` (en çok kaynaklı seriler).
+  - **Navbar** — gerçek 2026 kabuğundaki `li.dropdown.basvuru-menu` ile aynı
+    yerde/yapıda `li.dropdown.arsiv-menu` (`ARŞİV ▾` → Kullanım, Yama notu,
+    Hakkında, GitHub).
+- **Kapatılan iki ölçülmüş hata:**
+  - `.btn{height:var(--btn-h)}` kuralı TÜM `.btn`'leri 40 px yapıyordu;
+    turkanime'in harf çubuğu `.btn.btn-default` (bootstrap: 30 px) bu yüzden
+    uzundu (`.panel-ust` 51 px'e karşı referansta 41 px).
+  - `.menum` satırlarında etiketler `<li>`nin doğrudan çocuğuydu ve sağdaki
+    sayı panelin dışına taşıyordu; turkanime'de yapı
+    `<li><a class="baloon">…<span class="label pull-right">`.
+  - Ayrıca `#app` bir `.col-xs-12` olduğu için tüm görünüm 30 px içeride ve
+    kolonlar 65 px dar kalıyordu; `#app` artık `class="row"` (turkanime'de
+    `#arkaplan > .row > .col-xs-8`).
+- **Doğrulama:** aynı öğelerde site ↔ referans ölçümü (`tasarim-diff.py`);
+  renk/font/kenarlık/köşe değerleri birebir, genişlik farkı ≤5 px (kaydırma
+  çubuğu), yatay taşma 0 (1280 ve 390 px), konsol hatası yok. Slayt ileri/geri,
+  sekme geçişi, harf çubuğu, bölüm filtresi, tema anahtarı ve `ARŞİV` menüsü
+  tarayıcıda sınandı.
+
 **Tema — iskelet birebir (2. tur)**
 
 - İlk turda yalnız **renk katmanı** taşınmıştı (tokenlar doğruydu ama sayfa
