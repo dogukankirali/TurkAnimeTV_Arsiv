@@ -64,7 +64,7 @@ Sitede bulunan animelerin tüm player (video) linkleri, fansub bilgileri, çevir
 - 🏷️ Kaldırılan linklerin herkes için gizlenmesi (`kaldirilan.js`), eklenen linklerde (`eklenen.js`) içinde bulunmaktadır. 
 - 🖼️ **AniList zenginleştirme**: kapak, banner, özet, puan, yıl ve tür bilgileri
 - 💾 **İndirme betikleri**: oynatıcıdaki **"Videoyu indir"** düğmesi (ve anime geneli indirme) seçilen bölüm/link için `yt-dlp` komutu içeren `.bat` / `.sh` betiği üretir; panoya kopyalama yedek yoldur.
-- 🎨 **2025-26 TürkAnime görünümü**: turkanime.tv'nin kapanmadan önceki son teması (koyu varsayılan + açık tema anahtarı, `#b22222` vurgu, Arial yığını, 1024px içerik genişliği)
+- 🎨 **2025-26 TürkAnime görünümü — iskelet birebir**: turkanime.tv'nin kapanmadan önceki son teması, kendi CSS yığınıyla (`assets/css/`) ve gerçek DOM iskeletiyle (navbar · `#arkaplan` · A→Z harf çubuğu · `.panel`/`.panel-tabs`/`.list-group-item` · `.Altkisim` altbilgi). Koyu varsayılan + açık tema anahtarı (`.toggleDark`), `#b22222` vurgu, Arial yığını, 1024px içerik genişliği.
 - 📱 **Mobil uyumlu arayüz** (28.09.2026 mobil turu: 40–44 px dokunma hedefleri, bölüm listesinde 200'lük sayfalama, geri tuşu düzeltmeleri); `search.html` `file://` ile çift tıklayarak da çalışır — gömülü oynatıcı üçüncü taraf engeline takılırsa **"Kaynak"** bağlantısını kullanın.
 
 ## Site nasıl çalışıyor?

@@ -6,6 +6,21 @@
 <meta name="theme-color" content="#222222">
 <meta name="color-scheme" content="dark light">
 <link rel="icon" href="data:,">
+<!-- ============================================================
+     🎨 TürkAnime 2025-26 GERÇEK CSS YIĞINI (arşivden birebir)
+     ------------------------------------------------------------
+     Sıra turkanime'nin kendi <head>'iyle AYNI: font-awesome (cdnjs) →
+     bootstrap 3.3.7 → turkanime'nin özel bootstrap'ı → style (AÇIK tema)
+     → dark (KOYU tema, varsayılan) → mobil.
+     Dosyalar `assets/css/` altında; kaynak fiyatı yok, sürümler:
+       style.css v3.3.0.23 · dark.css v3.3.0.23 · bootstrap.css v3.3.0.19
+     ============================================================ -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/bootstrap.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/dark.css">
+<link rel="stylesheet" href="assets/css/mobil.css">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TB3R2BMC9E"></script>
 <script>
@@ -552,35 +567,41 @@ html{scroll-behavior:smooth}
      tokenlar yeniden bildirilir. Aksi hâlde açık temada `--tx:#222`
      olunca menü/arama metni koyu çubuk üstünde okunmaz olurdu
      (`header.top` altındaki her şey bu tokenları miras alır). */
-header.top{--bg:#2e3039;--bg2:#1e2026;--card:#1d1f25;--card2:#17191f;--line:#22242b;--tx:#c5c8ce;--tx2:#a4a9b2;--tx3:#767c86;--ac:#b22222;--ac2:#d9534f;--ac-ink:#fff;color:var(--tx);background:#23252c;backdrop-filter:none;border-bottom:none;box-shadow:0 0 5px #1e2026}
-.top-in{padding:8px var(--sp-4)}
-.topnav a{font-weight:400;font-size:13.5px;padding:7px 12px}
-.topnav a:hover{background:#1d1f25;color:#e9eaec}
-.topnav a.on{background:#1d1f25;box-shadow:inset 0 0 0 1px #17191f;color:#e9eaec}
+/* --- üst çubuk artık turkanime'nin KENDİ `header.navbar.navbar-inverse`'ı
+   (`assets/css/dark.css` · #23252C · gölge 0 0 5px #1e2026). Eski `.top`
+   kabuğunun kuralları ölü kaldığı için kaldırıldı: `.top-in`, `.topnav`,
+   `header.top .searchbox`, `header.top .ibtn`, `#temaBtn`.
+   Tema anahtarı da turkanime'nin `.toggleDark`'ı (güneş/ay <img>). */
+
+/* --- içerik bandı `#arkaplan` (style.css: background #fff · dark.css #1e2026)
+   --- turkanime'nin kendi kuralı geçerli; `.wrap` kaldırıldı. --- */
+
+/* --- düğmeler: yalnız VARYANTSIZ `.btn`
+   ⚠ Ölçüm düzeltmesi (02.10.2026): bu kural önce `.btn` yazıyordu ve
+   bootstrap varyantlarını da eziyordu → harf çubuğu `.btn.btn-default`
+   kırmızı gradyanla boyanıyordu. turkanime'de `.btn-default` koyu #1e2026
+   (dark.css) ve `.btn-info` #17191F. Varyantlar artık turkanime'nin CSS'inde. */
+
+
 /* #search input (dark.css): bg #17191f · kenarlık #22242b.
    ⚠ Yalnız ÜST ÇUBUKTAKİ arama kutusu: `.toolbar .searchbox` (Animeler /
    Kategoriler sayfası) sayfa zeminine oturur, temayı izlemeli. */
-header.top .searchbox{background:#17191f;border-color:#22242b}
-header.top .searchbox:focus-within{border-color:#b22222}
-header.top .ibtn{background:#17191f;border-color:#22242b}
-header.top .ibtn:hover{color:#e9eaec;border-color:#b22222;background:#1d1f25}
+
 /* tema anahtarı: TürkAnime .toggleDark — güneş (koyu) / ay (açık) */
-#temaBtn .moon{display:none}
-body.light #temaBtn .sun{display:none}
-body.light #temaBtn .moon{display:block}
+
 
 /* --- içerik bandı = TürkAnime #arkaplan (#1e2026 / açıkta #fff) --- */
-.wrap{background:var(--bg2)}
+
 
 /* --- panel/kart köşeleri: TürkAnime .panel = 3px --- */
 .poster,.feat,.hero,.kat,.azcard,.opt,.src,.note,.errbox,.note-soft,
 .resolvebox,.stat,.fchip,.pchip,.gchip,.az button,.pager button,.jump input,
-.jump button,.els-pager button,.mini,.copybtn,.searchbox,.ibtn,.btn,.kbd,
+.jump button,.els-pager button,.mini,.copybtn,.searchbox,.ibtn,.kbd,
 .els-search input,.resolvebox code{border-radius:var(--rad)}
 
 /* --- düğmeler: .btn-danger gradyanı + .btn-info koyu --- */
-.btn{font-weight:400;background:linear-gradient(to bottom,#d9534f,#b22222);border:1px solid #a81e1e}
-.btn:hover{filter:brightness(1.1)}
+.btn:not(.btn-default):not(.btn-danger):not(.btn-info):not(.btn-warning):not(.btn-success):not(.btn-primary){font-weight:400;background:linear-gradient(to bottom,#d9534f,#b22222);border:1px solid #a81e1e}
+.btn:not(.btn-default):not(.btn-danger):not(.btn-info):not(.btn-warning):not(.btn-success):not(.btn-primary):hover{filter:brightness(1.1)}
 .btn.ghost{background:#17191f;border:1px solid #23252c;color:#c5c8ce;font-weight:400}
 .btn.ghost:hover{border-color:#b22222;color:#e9eaec;filter:none}
 .btn.done{background:linear-gradient(to bottom,#9ab75f,#7b9940);border-color:#6d8a3a;color:#fff}
@@ -588,12 +609,10 @@ body.light #temaBtn .moon{display:block}
 
 /* --- altbilgi = TürkAnime .Altkisim (background:#222 · color:#fff) ---
    Altbilgi de iki temada KOYU; tokenlar kapsam içinde sabitlenir. */
-.foot{--tx:#fff;--tx2:#d9d9d9;--tx3:#9a9a9a;--ac:#b22222;--ac2:#b22222;--line:#111;max-width:none;background:#222;color:#fff;border-top:none;box-shadow:0 0 5px #222;padding:22px var(--sp-4) 26px}
-.foot b{color:#fff}
-.foot b span{color:#b22222}
+
 
 /* --- mobil alt menü: üst çubukla aynı yüzey (o da koyu kalır) --- */
-.bnav{--tx:#c5c8ce;--tx2:#a4a9b2;--tx3:#8a9099;--ac:#b22222;--line:#22242b;color:var(--tx2);background:#23252c;border-top-color:#17191f}
+
 
 /* --- hero / "Günün önerisi" koyu görsel üstüne biner -------------------
    Bu iki blok her zaman koyu bir fotoğrafın üzerinde durur; yazı rengi
@@ -645,73 +664,242 @@ body.light .kat small{color:#555}
   .toolbar .searchbox{height:var(--tap-sm)}
   .azcard{padding:12px 0 10px}
 }
+
+  /* ===== 📱 kabuk: turkanime `mobil.css` + `.dropdown-menu.mobile` =====
+     767px altında turkanime sol menüyü hamburgerin altına alır; biz de
+     aynısını yapıyoruz (bootstrap JS yüklemiyoruz, `.open` JS ile çevrilir). */
+  .mobil-menu-ac{display:none}
+  @media (max-width:767px){
+    .navbar-left > li{display:none}
+    .navbar-left > li.mobil-menu-ac{display:block}
+    #arkaplan .col-xs-3 img{max-width:150px;height:auto}
+  }
+  .dropdown-menu.mobile{display:none}
+  .open > .dropdown-menu.mobile{display:block}
+  a.yukari{position:fixed;right:12px;bottom:12px;width:38px;height:38px;
+    background:url(assets/imajlar/ui.totop.png) no-repeat center center rgba(23,25,31,.85);
+    border:1px solid #22242b;border-radius:3px;z-index:1030}
+
+/* ============================================================
+   🧱 İSKELET UYUM KATMANI (02.10.2026)
+   ------------------------------------------------------------
+   Kabuk artık turkanime'nin KENDİ CSS'iyle çiziliyor
+   (`assets/css/{bootstrap.min,bootstrap,style,dark,mobil}.css`).
+   Bu blok, uygulamanın kendi bileşenlerini (kart, bölüm satırı,
+   araç çubuğu, sayfalama) aynı dile çevirir. Değerler uydurma
+   DEĞİL; hepsi arşivdeki CSS'ten ölçüldü:
+     .panel-body #1D1F25 · .panel border #17191f · gölge 0 0 5px #22242b
+     .list-group-item (dark) #17191f · border-bottom 1px #22242b
+     .count rozeti: bg #b22222, color #fff, radius 15px
+     #filtre-input: bg #17191f, border 1px solid #22242b (dark)
+     .panel-ust-ic gradyanı açık temada #fdfdfd→#ececec
+   ============================================================ */
+
+/* --- panel içi ızgara: kartlar turkanime .panel.panel-visible gibi --- */
+body #app .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+#app .card{background:var(--card);border:1px solid var(--card2);border-radius:3px;
+  box-shadow:0 0 5px var(--line);overflow:hidden}
+#app .card:hover{background:var(--card2);border-color:var(--line)}
+#app .card .ct{font-weight:700}
+#app .card .cs{color:var(--tx3)}
+
+/* --- bölüm satırı = turkanime `.list-group-item` --- */
+#app .ep{background:var(--card2);border:0;border-bottom:1px solid var(--line);
+  border-radius:0;padding:7px 10px;cursor:pointer}
+#app .ep:first-child{border-top-left-radius:3px;border-top-right-radius:3px}
+#app .ep:last-child{border-bottom:0;border-bottom-left-radius:3px;border-bottom-right-radius:3px}
+#app .ep:hover{background:var(--card)}
+#app .ep .no{background:var(--ac);color:var(--ac-ink);border-radius:15px;
+  padding:0 7px;font-weight:400;font-size:.95em;display:inline-block;min-width:34px;text-align:center}
+body.light #app .ep{background:#eee;border-bottom:1px solid #a9a9a9}
+body.light #app .ep:hover{background:#e4e4e4}
+
+/* --- kırıntı = turkanime `.breadcrumb` (panel-ust içinde) --- */
+#app .crumb{background:transparent;border:0;margin:0;padding:2px 0}
+#app .crumb a{color:var(--tx2)}
+
+/* --- araç çubuğu girdileri = `#filtre-input` --- */
+#app .toolbar input,#app .toolbar select,#app .jump input,#app #filtre-input-bolum{
+  background-color:var(--card2);color:var(--tx);border:1px solid var(--line);
+  border-radius:3px;box-shadow:none;height:30px;padding:3px 10px;font-size:1em;line-height:23px}
+#app #filtre-input-bolum{width:98%;display:inline-block;margin:3px;
+  background-image:url(assets/imajlar/search-dark.png);background-repeat:no-repeat;
+  background-position:10px 6px;padding-left:30px}
+body.light #app #filtre-input-bolum{background-color:#fff;color:#555;border-color:#ccc;
+  background-image:url(assets/imajlar/search-white.png)}
+#app .toolbar input:focus,#app .jump input:focus,#app #filtre-input-bolum:focus{
+  border-color:var(--ac);outline:0;box-shadow:none}
+
+/* --- sayfalama = turkanime `.btn-group` çubuğu --- */
+#app .pager button{background:var(--card2);border:1px solid var(--line);color:var(--tx);
+  border-radius:3px}
+#app .pager button:hover{background:var(--card)}
+#app .pager button.on{background:var(--ac);border-color:var(--ac);color:var(--ac-ink)}
+
+/* --- çipler = turkanime `.label` --- */
+#app .pchip,#app .fchip,#app .gchip{background:var(--card2);border:1px solid var(--line);
+  border-radius:3px;color:var(--tx2);padding:1px 7px}
+#app .fchip.on{background:var(--ac);border-color:var(--ac);color:var(--ac-ink)}
+
+/* --- boş durum = turkanime `.alert.alert-dark` --- */
+#app .empty{background:var(--card2);border:1px solid var(--line);border-radius:3px;
+  color:var(--tx2);padding:14px;text-align:center}
+
+/* --- başlık satırı (.sh) = turkanime `.panel-ust .panel-title` --- */
+#app .sh{border-bottom:1px solid var(--line);padding:6px 0;margin:12px 0 8px}
+#app .sh h2{font-size:1.3em;font-weight:700;margin:0;color:var(--tx)}
+#app .panel .sh{margin-top:0}
+
+/* --- harf kartları / kategori kutuları: `.panel-ust-ic` yüzeyi --- */
+#app .kat,#app .azcard{background:var(--card);border:1px solid var(--card2);border-radius:3px;
+  box-shadow:0 0 5px var(--line)}
+#app .kat:hover,#app .azcard:hover{background:var(--card2)}
+body.light #app .kat,body.light #app .azcard{background:#eee;border-color:#a9a9a9}
+
+/* --- detay başlığı: turkanime `.panel-ust .panel-title` ölçüsü --- */
+#app #detayPaylas > .panel-ust > .panel-title{font-size:1.3em;font-weight:700}
+#app #detayPaylas .table>tbody>tr>td{border-top:1px solid var(--line)}
+body.light #app #detayPaylas .table>tbody>tr>td{border-top:1px solid #ddd}
+#app .hero{background:var(--card2);border:1px solid var(--card2);border-radius:3px}
 </style>
 </head>
-<body>
+<body id="bd" class="dark">
 <script>
-/* 🎨 2025-26 TürkAnime tema anahtarı (.toggleDark karşılığı).
-   TürkAnime'nin 2025-26 teması VARSAYILAN OLARAK KOYU'dur (`<body class="dark">`);
-   sağ üstteki güneş/ay simgesi açık temaya geçirir. Seçim localStorage'da
-   tutulur ve bu betik `<body>`nin hemen başında senkron çalışır — açık tema
-   seçiliyse ilk boyamada koyu tema "sıçraması" olmaz. */
+/* 🎨 Tema anahtarı — TürkAnime `.toggleDark` (arşiv: js/dark.js.2fa30a9f.js).
+   TürkAnime'nin 2025-26 teması VARSAYILAN OLARAK KOYU'dur: gövde
+   `<body id="bd" class="dark">` ile açılır, `dark.css` ona bağlanır.
+   Güneşe basınca `dark` sınıfı kalkar, `style.css`in AÇIK teması geçerli olur.
+
+   ⚠ turkanime seçimi ÇEREZDE tutar (`Cookies.set('theme',...)`) — ama çerez
+   GitHub Pages'te dosya:// altında da çalışsın diye localStorage kullanılıyor;
+   görünen davranış aynı: seçim kalıcı, ilk boyamada sıçrama yok (senkron). */
 (function(){
-  var K='ta-tema', b=document.body;
-  try{ b.classList.toggle('light', localStorage.getItem(K)==='acik'); }catch(e){}
-  function senkron(){
-    var t=document.getElementById('temaBtn'); if(!t) return;
-    var acik=b.classList.contains('light');
-    t.title = acik ? 'Koyu temaya geç' : 'Açık temaya geç';
-    t.setAttribute('aria-pressed', acik?'true':'false');
+  var K = 'ta-tema', b = document.body;
+  function koyuMu(){ try{ return localStorage.getItem(K) !== 'acik'; }catch(e){ return true; } }
+  function ciz(){
+    var koyu = koyuMu();
+    b.classList.toggle('dark', koyu);
+    b.classList.toggle('light', !koyu);
+    var t = document.querySelector('.toggleDark');
+    if (t){
+      t.title = koyu ? 'Açık temaya geç' : 'Koyu temaya geç';
+      var s = t.querySelector('.sun'), a = t.querySelector('.moon');
+      if (s) s.classList.toggle('hide', !koyu);
+      if (a) a.classList.toggle('hide', koyu);
+    }
   }
-  document.addEventListener('click',function(ev){
-    var t=ev.target && ev.target.closest ? ev.target.closest('#temaBtn') : null;
-    if(!t) return;
-    var acik=!b.classList.contains('light');
-    b.classList.toggle('light',acik);
-    try{ localStorage.setItem(K, acik?'acik':'koyu'); }catch(e){}
-    senkron();
+  ciz();
+  document.addEventListener('click', function(ev){
+    var t = ev.target && ev.target.closest ? ev.target.closest('.toggleDark') : null;
+    if (!t) return;
+    try{ localStorage.setItem(K, koyuMu() ? 'acik' : 'koyu'); }catch(e){}
+    ciz();
   });
-  document.addEventListener('DOMContentLoaded', senkron);
+  /* 📱 mobil menü (turkanime `.dropdown-menu.mobile`): bootstrap JS
+     yüklemiyoruz, `open` sınıfını kendimiz çeviriyoruz. */
+  document.addEventListener('click', function(ev){
+    var t = ev.target && ev.target.closest ? ev.target.closest('.mobil-menu-ac') : null;
+    var acik = document.querySelector('.dropdown-menu.mobile');
+    if (t){
+      if (acik) acik.parentNode.classList.toggle('open');
+      return;
+    }
+    if (acik && !ev.target.closest('.dropdown-menu.mobile')) acik.parentNode.classList.remove('open');
+  });
 })();
+/* Harf çubuğu: arşivde `harf/A` AYRI SAYFA açar; SPA'da aynı listeyi süzer. */
+document.addEventListener('click', function(ev){
+  var a = ev.target && ev.target.closest ? ev.target.closest('.alphabet a[data-harf]') : null;
+  if (!a) return;
+  ev.preventDefault();
+  window.scrollTo(0, 0);
+  if (typeof listeFiltreUygula === 'function') listeFiltreUygula({t:'harf', v:a.dataset.harf});
+});
 </script>
 
-<header class="top">
-  <div class="top-in">
-    <a class="logo" href="#/" aria-label="TürkAnime Arşiv — ana sayfa"><img src="logo.png" width="342" height="104" alt="TürkAnime Arşiv" decoding="async" fetchpriority="high"></a>
-    <nav class="topnav" aria-label="Ana gezinme">
-      <a href="#/" data-nav="ana">Ana sayfa</a>
-      <a href="#/animeler" data-nav="animeler">Animeler</a>
-      <a href="#/kategoriler" data-nav="kategoriler">Kategoriler</a>
-    </nav>
-    <label class="searchbox">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input id="q" type="search" placeholder="Anime ara..." autocomplete="off" spellcheck="false" aria-label="Anime ara">
-      <span class="kbd">/</span>
-    </label>
-    <button class="ibtn" id="temaBtn" type="button" title="Açık temaya geç" aria-label="Tema değiştir" aria-pressed="false">
-      <svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
-      <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-    </button>
-    <button class="ibtn rnd" type="button" title="Rastgele anime" aria-label="Rastgele anime"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h.01M16 8h.01M12 12h.01M8 16h.01M16 16h.01"/></svg></button>
-    <span class="kbd" id="admBadge" hidden title="yönetici modu: × ile link kaldırma açık">admin</span>
-  </div>
+<!-- ============================================================
+     İSKELET — TürkAnime 2025-26 `shell-header.html` ile birebir.
+     Arşivin karşılığı OLMAYAN turkanime bağlantıları (FORUM, TAKVİM,
+     YAKINDA, HABERLER) arşivin kendi bölümlerine yönlendirildi;
+     geri kalan her şey (sınıf adları, sıra, .label.label-danger
+     "Yeni" etiketi, arama kutusu, .toggleDark, giriş/kayıt yerine
+     S.S.S./İLETİŞİM) aynı.
+     ============================================================ -->
+<header class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <article class="container">
+    <ul class="nav navbar-nav navbar-left">
+      <li class="mobil-menu-ac"><a href="javascript:void(0);" class="dropdown-toggle mobil-menu-ac" title="Menü" aria-label="Menü"><i class="fa fa-bars ikon-top"></i></a>
+        <ul class="dropdown-menu mobile">
+          <li class="dropdown-header">Menü</li>
+          <li><a href="#/animeler">Animeler</a></li>
+          <li><a href="#/kategoriler">Kategoriler</a></li>
+          <li><a href="https://github.com/Nutaliaxd/TurkAnimeTV_Arsiv/blob/main/KULLANIM.md" target="_blank" rel="noopener">Kullanım (S.S.S.)</a></li>
+        </ul>
+      </li>
+      <li><a class="logo" href="#/" data-nav="ana" title="TürkAnime Arşiv — ana sayfa"><i class="fa fa-home ikon-top"></i></a></li>
+      <li><a href="#/animeler" data-nav="animeler" title="Tüm animeler (6.107)">ANİMELER</a></li>
+      <li><a href="#/kategoriler" data-nav="kategoriler" title="Kategoriler, türler, harfler">KATEGORİLER</a></li>
+      <li><a href="javascript:void(0);" class="rnd" title="Rastgele anime">RASTGELE</a></li>
+      <li><a href="https://github.com/Nutaliaxd/TurkAnimeTV_Arsiv/blob/main/KULLANIM.md" target="_blank" rel="noopener" title="Kullanım kılavuzu (S.S.S.)">S.S.S. <span class="label label-danger" style="position:absolute; top:5px; right:2px;">Yeni</span></a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="navbar-form navbar-left" id="search" role="search">
+        <form class="form-horizontal" role="form" onsubmit="return false;">
+          <input type="search" class="arama" id="q" placeholder="Anime ara..." name="arama"
+                 autocomplete="off" spellcheck="false" aria-label="Anime ara" required>
+        </form>
+      </li>
+      <li><div class="toggleDark"><img class="sun hide" src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTI7IiB4bWw6c3BhY2U9InByZXNlcnZlIiB3aWR0aD0iNTEycHgiIGhlaWdodD0iNTEycHgiPgo8cGF0aCBzdHlsZT0iZmlsbDojRkZBNjAwOyIgZD0iTTUwNy44MzQsMzAxLjYwOGwtNTQuNzY5LTQ4LjMxMmw1Mi44MzItNTAuMzk5YzEuOTQxLTEuODUyLDIuNzQtNC41OTEsMi4wOTktNy4xODkgIGMtMC42NDItMi41OTctMi42MjktNC42NTUtNS4yMTEtNS40MDFsLTcwLjMxNi0yMC4yOTJsMjUuOTg4LTY4LjA1NmMwLjk1NS0yLjUsMC40OTUtNS4zMTYtMS4yMDQtNy4zODkgIGMtMS43LTIuMDcyLTQuMzgzLTMuMDg1LTcuMDM4LTIuNjU3bC03Mi4yNzQsMTEuNjUybC01Ljg3OC03Mi41NjFjLTAuMjE2LTIuNjY2LTEuODQ2LTUuMDE1LTQuMjc1LTYuMTYxICBjLTIuNDI5LTEuMTQ2LTUuMjkxLTAuOTE3LTcuNTA0LDAuNjAxbC02MC4yNjYsNDEuMzQyTDI2My40MDksMy43NDJDMjYyLjA2NCwxLjQyNiwyNTkuNTc5LDAsMjU2Ljg4OSwwICBjLTIuNjksMC01LjE3NCwxLjQyNi02LjUxOSwzLjc0MkwyMDguMzQ3LDc2LjExbC03Mi42OS00MS45NTNjLTIuMzI3LTEuMzQzLTUuMTk3LTEuMzQ5LTcuNTI4LTAuMDE4ICBjLTIuMzMzLDEuMzMxLTMuNzczLDMuNzk5LTMuNzgsNi40NzNsLTAuMTc2LDcyLjc5NWwtNzIuOTY1LTYuMDE0Yy0yLjY3NS0wLjIyLTUuMjc1LDAuOTk3LTYuODA3LDMuMTk0ICBjLTEuNTMzLDIuMTk3LTEuNzcxLDUuMDQxLTAuNjIyLDcuNDU5bDMxLjI0Miw2NS44MzVMNi41MDgsMjA5LjU2MmMtMi41MTYsMC45NDMtNC4zMzUsMy4xNS00Ljc3Myw1Ljc4OSAgYy0wLjQzOCwyLjYzOCwwLjU3NSw1LjMwOCwyLjY1Niw3LjAwM2w1Ni42MTksNDYuMTUybC01MC44MTMsNTIuNDFjLTEuODY2LDEuOTI1LTIuNTU5LDQuNjk0LTEuODE2LDcuMjY0ICBjMC43NDQsMi41NywyLjgxLDQuNTUsNS40MTksNS4xOTRsNzEuMDU1LDE3LjU1MUw2MS41Niw0MTkuOTM2Yy0wLjg1NiwyLjUzNS0wLjI4Niw1LjMzMSwxLjQ5NCw3LjMzNiAgYzEuNzgxLDIuMDA1LDQuNTAyLDIuOTEzLDcuMTM3LDIuMzgybDcxLjc2LTE0LjQ0M2w4LjcyMSw3Mi4yNzhjMC4zMTksMi42NTUsMi4wNDEsNC45MzgsNC41MTMsNS45OSAgYzIuNDc0LDEuMDUyLDUuMzIzLDAuNzEyLDcuNDc1LTAuODkxbDU4LjU5Ni00My42NDdsMzkuMDU1LDU5LjU2NmMxLjM4MiwyLjE3OSwzLjc4OSwzLjQ5Miw2LjM2NywzLjQ5MiAgYzAuMDk4LDAsMC4xOTYtMC4wMDIsMC4yOTUtMC4wMDZjMi42ODctMC4xMDQsNS4xMTUtMS42MjYsNi4zNjgtMy45OTJsMzQuMTA3LTYyLjQwNWw2MS44MzksMzguOTc0ICBjMi4yNzMsMS40MzIsNS4xMzcsMS41NSw3LjUyMiwwLjMxYzIuMzgyLTEuMjQsMy45MTktMy42NSw0LjAzLTYuMzIybDMuMDMxLTcyLjczNGw3Mi42NzQsOC44NGMyLjY2NCwwLjMyNCw1LjMxLTAuNzkxLDYuOTI4LTIuOTI3ICBjMS42MTgtMi4xMzcsMS45NjYtNC45NjksMC45MTQtNy40M2wtMjguNjM2LTY2Ljk5N2w2OS40NjUtMjMuMDAzYzIuNTUyLTAuODQ1LDQuNDU2LTIuOTc5LDQuOTk3LTUuNTk5ICBDNTEwLjc1MiwzMDYuMDksNTA5Ljg0NSwzMDMuMzgzLDUwNy44MzQsMzAxLjYwOHoiLz4KPGVsbGlwc2Ugc3R5bGU9ImZpbGw6I0ZGREIyRDsiIGN4PSIyNTQuMzUiIGN5PSIyNTQuNjkxIiByeD0iMTU1LjA2OSIgcnk9IjE1NC45NDkiLz4KPHBhdGggc3R5bGU9ImZpbGw6I0ZGQ0EwMDsiIGQ9Ik0yNTQuMzU0LDk5Ljc0M2MtMy44ODQsMC03LjczMiwwLjE0Ny0xMS41NDMsMC40MjhjODAuMjUsNS45MDEsMTQzLjUyNSw3Mi44MjUsMTQzLjUyNSwxNTQuNTIxICBjMCw4MS42OTUtNjMuMjc1LDE0OC42MTktMTQzLjUyNSwxNTQuNTIxYzMuODExLDAuMjgsNy42NiwwLjQyOCwxMS41NDMsMC40MjhjODUuNjQxLDAsMTU1LjA2OC02OS4zNzMsMTU1LjA2OC0xNTQuOTQ4ICBDNDA5LjQyMiwxNjkuMTE2LDMzOS45OTUsOTkuNzQzLDI1NC4zNTQsOTkuNzQzeiIvPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K" /><img class="moon hide" src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDQ5OS43MTIgNDk5LjcxMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDk5LjcxMiA0OTkuNzEyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjUxMnB4IiBoZWlnaHQ9IjUxMnB4Ij4KPHBhdGggc3R5bGU9ImZpbGw6I0ZGRDkzQjsiIGQ9Ik0xNDYuODgsMzc1LjUyOGMxMjYuMjcyLDAsMjI4LjYyNC0xMDIuMzY4LDIyOC42MjQtMjI4LjY0YzAtNTUuOTUyLTIwLjE2LTEwNy4xMzYtNTMuNTItMTQ2Ljg4ICBDNDI1LjA1NiwzMy4wOTYsNDk5LjY5NiwxMjkuNjQsNDk5LjY5NiwyNDMuNzA0YzAsMTQxLjM5Mi0xMTQuNjA4LDI1Ni0yNTYsMjU2Yy0xMTQuMDY0LDAtMjEwLjYwOC03NC42NC0yNDMuNjk2LTE3Ny43MTIgIEMzOS43NDQsMzU1LjM2OCw5MC45NDQsMzc1LjUyOCwxNDYuODgsMzc1LjUyOHoiLz4KPHBhdGggc3R5bGU9ImZpbGw6I0Y0QzUzNDsiIGQ9Ik00MDEuOTIsNDIuNzc2YzM0LjI0LDQzLjUwNCw1NC44MTYsOTguMjcyLDU0LjgxNiwxNTcuOTUyYzAsMTQxLjM5Mi0xMTQuNjA4LDI1Ni0yNTYsMjU2ICBjLTU5LjY4LDAtMTE0LjQ0OC0yMC41NzYtMTU3Ljk1Mi01NC44MTZjNDYuODQ4LDU5LjQ3MiwxMTkuMzQ0LDk3Ljc5MiwyMDAuOTI4LDk3Ljc5MmMxNDEuMzkyLDAsMjU2LTExNC42MDgsMjU2LTI1NiAgQzQ5OS43MTIsMTYyLjEyLDQ2MS4zOTIsODkuNjQsNDAxLjkyLDQyLjc3NnoiLz4KPGc+Cgk8cG9seWdvbiBzdHlsZT0iZmlsbDojRkZEODNCOyIgcG9pbnRzPSIxMjguMTI4LDk5Ljk0NCAxNTQuNDk2LDE1My40IDIxMy40NzIsMTYxLjk2IDE3MC44LDIwMy41NiAxODAuODY0LDI2Mi4yOTYgICAgMTI4LjEyOCwyMzQuNTY4IDc1LjM3NiwyNjIuMjk2IDg1LjQ0LDIwMy41NiA0Mi43NjgsMTYxLjk2IDEwMS43NDQsMTUzLjQgICIvPgoJPHBvbHlnb24gc3R5bGU9ImZpbGw6I0ZGRDgzQjsiIHBvaW50cz0iMjc2Ljg2NCw4Mi44NCAyOTAuNTI4LDExMC41NTIgMzIxLjEwNCwxMTQuOTg0IDI5OC45NzYsMTM2LjU1MiAzMDQuMjA4LDE2Ni45ODQgICAgMjc2Ljg2NCwxNTIuNjE2IDI0OS41MiwxNjYuOTg0IDI1NC43NTIsMTM2LjU1MiAyMzIuNjI0LDExNC45ODQgMjYzLjIsMTEwLjU1MiAgIi8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==" /></div></li>
+      <li><a href="https://github.com/Nutaliaxd/TurkAnimeTV_Arsiv/issues" target="_blank" rel="noopener" title="İletişim / hata bildirimi">İLETİŞİM</a></li>
+      <li><span class="kbd" id="admBadge" hidden title="yönetici modu: × ile link kaldırma açık">admin</span></li>
+    </ul>
+  </article>
 </header>
 
-<div class="wrap"><main id="app"></main></div>
+<article class="container">
+  <div id="arkaplan">
+    <div class="row" style="margin-top:5px;">
+      <div class="col-xs-3" style="margin-top:5px;">
+        <a class="logo" href="#/" data-nav="ana" aria-label="TürkAnime Arşiv — ana sayfa"><img src="assets/imajlar/logo.png" alt="TürkAnime Arşiv" border="0"></a>
+      </div>
+      <div class="col-xs-9"></div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="navbar navbar-inverse panel" style="margin:10px 0 10px 0;">
+          <div class="navbar-inner panel-ust" style="padding:5px 0 5px 0; margin: 0 auto; text-align: center;">
+            <div class="btn-group btn-group-sm alphabet"><a href="#/ara" class="btn btn-default" data-harf="0" style="padding-left:12px; padding-right:12px;"><b>.#0-9</b></a><a href="#/ara" class="btn btn-default" data-harf="A" style="padding-left:12px; padding-right:12px;"><b>A</b></a><a href="#/ara" class="btn btn-default" data-harf="B" style="padding-left:12px; padding-right:12px;"><b>B</b></a><a href="#/ara" class="btn btn-default" data-harf="C" style="padding-left:12px; padding-right:12px;"><b>C</b></a><a href="#/ara" class="btn btn-default" data-harf="D" style="padding-left:12px; padding-right:12px;"><b>D</b></a><a href="#/ara" class="btn btn-default" data-harf="E" style="padding-left:12px; padding-right:12px;"><b>E</b></a><a href="#/ara" class="btn btn-default" data-harf="F" style="padding-left:12px; padding-right:12px;"><b>F</b></a><a href="#/ara" class="btn btn-default" data-harf="G" style="padding-left:12px; padding-right:12px;"><b>G</b></a><a href="#/ara" class="btn btn-default" data-harf="H" style="padding-left:12px; padding-right:12px;"><b>H</b></a><a href="#/ara" class="btn btn-default" data-harf="I" style="padding-left:12px; padding-right:12px;"><b>I</b></a><a href="#/ara" class="btn btn-default" data-harf="J" style="padding-left:12px; padding-right:12px;"><b>J</b></a><a href="#/ara" class="btn btn-default" data-harf="K" style="padding-left:12px; padding-right:12px;"><b>K</b></a><a href="#/ara" class="btn btn-default" data-harf="L" style="padding-left:12px; padding-right:12px;"><b>L</b></a><a href="#/ara" class="btn btn-default" data-harf="M" style="padding-left:12px; padding-right:12px;"><b>M</b></a><a href="#/ara" class="btn btn-default" data-harf="N" style="padding-left:12px; padding-right:12px;"><b>N</b></a><a href="#/ara" class="btn btn-default" data-harf="O" style="padding-left:12px; padding-right:12px;"><b>O</b></a><a href="#/ara" class="btn btn-default" data-harf="P" style="padding-left:12px; padding-right:12px;"><b>P</b></a><a href="#/ara" class="btn btn-default" data-harf="Q" style="padding-left:12px; padding-right:12px;"><b>Q</b></a><a href="#/ara" class="btn btn-default" data-harf="R" style="padding-left:12px; padding-right:12px;"><b>R</b></a><a href="#/ara" class="btn btn-default" data-harf="S" style="padding-left:12px; padding-right:12px;"><b>S</b></a><a href="#/ara" class="btn btn-default" data-harf="T" style="padding-left:12px; padding-right:12px;"><b>T</b></a><a href="#/ara" class="btn btn-default" data-harf="U" style="padding-left:12px; padding-right:12px;"><b>U</b></a><a href="#/ara" class="btn btn-default" data-harf="V" style="padding-left:12px; padding-right:12px;"><b>V</b></a><a href="#/ara" class="btn btn-default" data-harf="W" style="padding-left:12px; padding-right:12px;"><b>W</b></a><a href="#/ara" class="btn btn-default" data-harf="X" style="padding-left:12px; padding-right:12px;"><b>X</b></a><a href="#/ara" class="btn btn-default" data-harf="Y" style="padding-left:12px; padding-right:12px;"><b>Y</b></a><a href="#/ara" class="btn btn-default" data-harf="Z" style="padding-left:12px; padding-right:12px;"><b>Z</b></a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12" id="app"></div>
+    </div>
+  </div>
+</article>
 
-<footer class="foot">
-  <p><b>türkanime<span>arşiv</span></b></p>
-  <p>6.000'den fazla animenin bölümleri ve oynatma linkleri tek sayfada.</p>
-  <p class="foot-legal"><strong>Yasal Uyarı</strong>TürkAnime Arşiv hiçbir video dosyasını barındırmaz; tüm videolar 3. taraf sağlayıcılardan iframe embed ile sunulur.</p>
+<footer class="clearfix">
+  <div class="Altkisim">
+    <div class="container">
+      <div class="col-xs-3 copyright">
+        <span class="copyText">© 2026 Türk Anime TV | <a href="#/">türkanime arşiv</a></span>
+      </div>
+      <div class="col-xs-9 AltkisimMenu">
+        <ul class="Alt">
+          <li><a href="#/" title="Ana sayfa">ana sayfa</a></li>
+          <li><a href="#/animeler" title="Tüm animeler">animeler</a></li>
+          <li><a href="#/kategoriler" title="Kategoriler">kategoriler</a></li>
+          <li><a href="README.md" title="Arşiv hakkında">hakkında</a></li>
+          <li><a href="KULLANIM.md" title="Kullanım kılavuzu">kullanım</a></li>
+          <li><a href="YAMA-NOTU.md" title="Sürüm notları">yama notu</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </footer>
-
-<nav class="bnav" aria-label="Alt menü">
-  <a href="#/" data-nav="ana-mobil"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>Ana sayfa</a>
-  <a href="#/animeler"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M17 2l-5 5-5-5"/></svg>Animeler</a>
-  <a href="#/kategoriler"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3 6h.01M3 12h.01M3 18h.01"/></svg>Kategoriler</a>
-  <button id="bSearch" type="button"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Ara</button>
-  <button class="rnd" type="button"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h.01M16 8h.01M12 12h.01M8 16h.01M16 16h.01"/></svg>Rastgele</button>
-</nav>
+<a class="yukari" href="javascript:void(0);" title="Yukarı çık" aria-label="Yukarı çık"></a>
+<div id="modallar"></div>
 
 <!-- kaldirilan.js: sunucuda 404 / dosya yoksa sessizce boş kalıyordu ->
      76 doğrulanmış ölü link (BYSE, PIXELDRAIN) oynatıcıya geri dönüyordu ve
@@ -1693,7 +1881,25 @@ function landingHtml(){
   const eps = ANIME.reduce((n,a)=>n+a.eps,0), links = ANIME.reduce((n,a)=>n+a.urls+a.masks,0);
   const fmt = n=>n.toLocaleString('tr-TR');
   const href = '#/anime/'+encodeURIComponent(d.slug);
+  /* 🧱 TürkAnime ana sayfa iskeleti (anasayfa_20260814102725.html):
+     `.col-xs-8` içinde `#orta-sekme.panel-tabs` sekmeli panel + `#orta-icerik`,
+     `.col-xs-4` yan kolonda `.menum` listeleri. Sekmeler turkanime'deki
+     `data-toggle="tab"` mantığıyla, bootstrap JS olmadan çalışır. */
   return `
+  <div class="col-xs-8">
+    <div class="col-xs-12" style="padding:5px;">
+      <div class="panel">
+        <div class="panel-ust"><div class="panel-title">TÜRK ANİME ARŞİV</div></div>
+        <div class="panel-menu">
+          <ul class="nav panel-tabs nav-justified" id="orta-sekme">
+            <li class="active"><a href="javascript:void(0);" data-sek="gun" data-div="orta-icerik" data-toggle="tab">Günün Önerisi</a></li>
+            <li><a href="javascript:void(0);" data-sek="oner" data-div="orta-icerik" data-toggle="tab">Öneri Serileri</a></li>
+            <li><a href="javascript:void(0);" data-sek="kat" data-div="orta-icerik" data-toggle="tab">Kategoriler</a></li>
+            <li><a href="javascript:void(0);" data-sek="pop" data-div="orta-icerik" data-toggle="tab">Popüler Animeler</a></li>
+          </ul>
+        </div>
+        <div class="panel-body" id="orta-icerik">
+          <div class="col-xs-12 sek" data-sek="gun" style="padding:5px;">
     <section class="feat" style="--h:${hueOf(d.slug)};--g:${(hueOf(d.slug)+35)%360}">
       <a class="fposter" href="${href}" aria-label="${esc(d.baslik)}">${poster(d, SZ_FPOS)}</a>
       <div class="ftext">
@@ -1707,19 +1913,79 @@ function landingHtml(){
         </div>
       </div>
     </section>
-    <div class="stats">
-      <span class="stat">${ic('tv')}<b>${fmt(ANIME.length)}</b> anime</span>
-      <span class="stat">${ic('film')}<b>${fmt(eps)}</b> bölüm</span>
-      <span class="stat">${ic('link')}<b>${fmt(links)}</b> kaynak</span>
+          </div>
+          <div class="col-xs-12 sek hide" data-sek="oner" style="padding:5px;">
+            <div class="sh"><h2>Öneri serileri</h2><button class="btn ghost sm" id="recNext" type="button">${ic('rotate')} Yenile</button></div>
+            <div class="rail">${rec.map(card).join('')}</div>
+          </div>
+          <div class="col-xs-12 sek hide" data-sek="kat" style="padding:5px;">
+            <div class="kats">${KATS.map(k=>`<button class="kat" type="button" style="--h:${k.h}" data-kat="${k.id}">${ic(k.ic)}<b>${esc(k.ad)}</b><small>${fmt(k.n)} seri</small></button>`).join('')}</div>
+          </div>
+          <div class="col-xs-12 sek hide" data-sek="pop" style="padding:5px;">
+            <div class="sh"><h2>En çok kaynaklı 20 anime</h2></div>
+            <div class="rail">${ANIME.slice().sort((a,b)=>(b.urls+b.masks)-(a.urls+a.masks)).slice(0,20).map(card).join('')}</div>
+          </div>
+        </div>
+        <div class="panel-footer clearfix"></div>
+      </div>
     </div>
-    <div class="sh"><h2>Kategoriler</h2></div>
-    <div class="kats">${KATS.map(k=>`<button class="kat" type="button" style="--h:${k.h}" data-kat="${k.id}">${ic(k.ic)}<b>${esc(k.ad)}</b><small>${fmt(k.n)} seri</small></button>`).join('')}</div>
-    <div class="sh"><h2>Öneri serileri</h2><button class="btn ghost sm" id="recNext" type="button">${ic('rotate')} Yenile</button></div>
-    <div class="rail">${rec.map(card).join('')}</div>
-    <div class="sh"><h2>Harfe göre gözat</h2></div>
-    <div class="az"><button type="button" data-harf="0">0-9</button>${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l=>`<button type="button" data-harf="${l}">${l}</button>`).join('')}</div>`;
+  </div>
+  <div class="col-xs-4">
+    <div class="col-xs-12" style="padding:5px;">
+      <div class="panel">
+        <div class="panel-ust"><div class="panel-title">ARŞİV DURUMU</div></div>
+        <div class="panel-body padding-none">
+          <ul class="menum">
+            <li><span class="label label-warning">1</span> anime <span class="label pull-right">${fmt(ANIME.length)}</span></li>
+            <li><span class="label label-warning">2</span> bölüm <span class="label pull-right">${fmt(eps)}</span></li>
+            <li><span class="label label-warning">3</span> oynatma kaynağı <span class="label pull-right">${fmt(links)}</span></li>
+          </ul>
+        </div>
+        <div class="panel-footer clearfix"></div>
+      </div>
+    </div>
+    <div class="col-xs-12" style="padding:5px;">
+      <div class="panel">
+        <div class="panel-ust"></div>
+        <div class="panel-menu">
+          <ul class="nav panel-tabs nav-justified" id="aktif-sekme">
+            <li class="active"><a href="javascript:void(0);" data-sek="harf" data-div="aktif-icerik" data-toggle="tab">Harfler</a></li>
+            <li><a href="javascript:void(0);" data-sek="tur" data-div="aktif-icerik" data-toggle="tab">Türüne Göre</a></li>
+          </ul>
+        </div>
+        <div class="panel-body padding-none" id="aktif-icerik">
+          <div id="filtre-harf" class="sek">
+            <div class="az"><button type="button" data-harf="0">0-9</button>${'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l=>`<button type="button" data-harf="${l}">${l}</button>`).join('')}</div>
+          </div>
+          <div id="filtre-tur" class="sek hide">
+            <ul class="list-group">
+              ${[...turSayilari().entries()].sort((a,b)=>b[1]-a[1]).slice(0,24).map(([t,n])=>`<li class="list-group-item" style="cursor:pointer" data-tur="${esc(t)}"><h4 class="list-group-item-heading" style="margin:0">${esc(turAdi(t))}</h4><span class="text-muted pull-right">${n} seri</span></li>`).join('')}
+            </ul>
+          </div>
+        </div>
+        <div class="panel-footer clearfix"></div>
+      </div>
+    </div>
+  </div>`;
 }
 function bindLanding(){
+  /* 🧱 turkanime `.panel-tabs` sekme davranışı (data-div = hedef panel) */
+  ['orta-sekme','aktif-sekme'].forEach(id=>{
+    const ul = document.getElementById(id); if (!ul) return;
+    ul.querySelectorAll('a[data-sek]').forEach(a=>{
+      a.onclick = ev=>{
+        ev.preventDefault();
+        ul.querySelectorAll('li').forEach(li=> li.classList.remove('active'));
+        a.closest('li').classList.add('active');
+        const kap = document.getElementById(a.dataset.div);
+        if (!kap) return;
+        kap.querySelectorAll('.sek').forEach(s=> s.classList.toggle('hide', s.dataset.sek!==a.dataset.sek));
+      };
+    });
+  });
+  appEl().querySelectorAll('[data-tur]').forEach(el=>{
+    el.onclick = ()=> listeFiltreUygula({t:'tur', v:el.dataset.tur});
+  });
   const d = document.getElementById('dailyNext');
   if (d) d.onclick = ()=>{ dailyShift++; renderHome(); };
   const r = document.getElementById('recNext');
@@ -1851,6 +2117,11 @@ function renderAnimeler(){
   if (anPage>pages) anPage = pages;
   const slice = items.slice((anPage-1)*PAGE, anPage*PAGE);
   appEl().innerHTML = `
+  <div class="col-xs-12">
+  <div class="col-xs-12" style="padding:5px;">
+  <div class="panel">
+    <div class="panel-ust"><div class="panel-title">ANİMELER</div></div>
+    <div class="panel-body">
     <div class="count-line"><b>${items.length.toLocaleString('tr-TR')}</b> anime — tam liste${anQ?` — “${esc(anQ)}”`:''}</div>
     <div class="toolbar">
       <label class="searchbox">
@@ -1866,7 +2137,12 @@ function renderAnimeler(){
       </label>
     </div>
     ${slice.length? `<div class="grid">${slice.map(card).join('')}</div>${pagerHTML(anPage, items.length, PAGE)}`
-    : `<div class="empty"><div class="big">${ic('search')}</div>Sonuç bulunamadı.<br>Farklı bir kelime dene.</div>`}`;
+    : `<div class="empty"><div class="big">${ic('search')}</div>Sonuç bulunamadı.<br>Farklı bir kelime dene.</div>`}
+    </div>
+    <div class="panel-footer clearfix"></div>
+  </div>
+  </div>
+  </div>`;
   const q = document.getElementById('anQ');
   q.addEventListener('input', debounce(()=>{
     anQ = q.value.trim(); anPage = 1;
@@ -1952,12 +2228,11 @@ function renderKategoriler(){
     .slice(0,20);
 
   appEl().innerHTML = `
-    <h1
-      class="anime-title"
-      style="font-size:22px;margin-bottom:10px"
-    >
-      Kategoriler
-    </h1>
+  <div class="col-xs-12">
+  <div class="col-xs-12" style="padding:5px;">
+  <div class="panel">
+    <div class="panel-ust"><div class="panel-title">KATEGORİLER</div></div>
+    <div class="panel-body">
 
     <div class="sh">
       <h2>Türlere göre gözat</h2>
@@ -2025,6 +2300,11 @@ function renderKategoriler(){
     <div class="rail">
       ${enCokUrl.map(card).join('')}
     </div>
+    </div>
+    <div class="panel-footer clearfix"></div>
+  </div>
+  </div>
+  </div>
   `;
 
   appEl()
@@ -2088,7 +2368,17 @@ function renderAnime(slug, data){
     sezonlar.map(s=>{ const n = data.filter(e=>sezonNo(e)===s).length;
       return `<button class="fchip sezbtn${s===epSezon?' on':''}" data-sz="${s}" type="button" title="${n} bölüm">${s}. Sezon <b>${n}</b></button>`; }).join('') +
     `</div>` : '';
+  /* 🧱 TürkAnime anime-detay iskeleti (refsayfa/anime.html + anime-detay-yapi.txt):
+     `.col-xs-8` ana kolon  → `#detayPaylas > .panel > .panel-ust > .panel-title`
+                              + `.panel-body` + `.panel-footer.clearfix`
+     `.col-xs-4` yan kolon  → bölüm listesi `#aktif-sekme.nav.panel-tabs.nav-justified`
+                              + `#aktif-icerik.panel-body.padding-none` (style.css:235) */
   appEl().innerHTML = `
+  <div class="col-xs-8">
+  <div class="col-xs-12" style="padding:5px;">
+  <div class="panel" id="detayPaylas">
+    <div class="panel-ust"><div class="panel-title">${esc(meta.baslik)}</div></div>
+    <div class="panel-body">
     <div class="crumb"><a href="#/ara">Arama</a><span class="sep">›</span><span>${esc(meta.baslik)}</span></div>
     <!-- L2 düzeltmesi: bnr (AniList banner/cover ya da localStorage önbelleği)
          üçüncü taraf verisidir ve KAÇIŞ UYGULANMADAN style="..." içine
@@ -2110,18 +2400,54 @@ function renderAnime(slug, data){
       </div>
     </div>
     </div>
-    <div class="controls">
-      <button class="btn" id="indirBtn" type="button">${ic('dl')} Animeyi indir</button>
-      <label class="tgl"><input type="checkbox" id="tumTgl"> tüm fansub/seçenekler</label>
-      <span style="color:var(--tx3);font-size:12px">bat + sh üretir (yt-dlp)</span>
     </div>
-    ${data.length?`
-      ${sezonRow}
-      <div id="eplist">${slice.map(ep=>epRow(slug, ep, data)).join('')}</div>
-      ${pagerHTML(epPage, goster.length, EP_PAGE)}
-      ${data.length>EP_PAGE?`<div class="jump">Bölüme git: <input id="jumpNo" inputmode="numeric" placeholder="no veya 1-12"> <button id="jumpGo" type="button">Git</button><span class="jhint"> ${data.length} bölümün tamamında arar</span></div>`:''}
-    `:`<div class="empty"><div class="big">${ic('film')}</div>Bu animede bölüm kaydı yok.</div>`}
-    ${relatedHtml(slug)}
+    </div>
+    <div class="panel-footer clearfix">
+      <div class="controls" style="margin:0">
+        <button class="btn" id="indirBtn" type="button">${ic('dl')} Animeyi indir</button>
+        <label class="tgl"><input type="checkbox" id="tumTgl"> tüm fansub/seçenekler</label>
+        <span style="color:var(--tx3);font-size:12px">bat + sh üretir (yt-dlp)</span>
+      </div>
+    </div>
+  </div>
+  </div>
+  ${data.length?`
+  <div class="col-xs-12" style="padding:5px;">
+    <div class="panel">
+      <div class="panel-ust"><div class="panel-title">BÖLÜMLER</div></div>
+      <div class="panel-menu">
+        <ul class="nav panel-tabs nav-justified" id="aktif-sekme">
+          <li class="active"><a href="javascript:void(0);">Bölümler</a></li>
+        </ul>
+      </div>
+      <div class="panel-body padding-none" id="aktif-icerik">
+        <input id="filtre-input-bolum" type="search" placeholder="Bölüm ara..." aria-label="Bölüm ara">
+        ${sezonRow}
+        <div id="eplist" class="list-group">${slice.map(ep=>epRow(slug, ep, data)).join('')}</div>
+        ${pagerHTML(epPage, goster.length, EP_PAGE)}
+        ${data.length>EP_PAGE?`<div class="jump">Bölüme git: <input id="jumpNo" inputmode="numeric" placeholder="no veya 1-12"> <button id="jumpGo" type="button">Git</button><span class="jhint"> ${data.length} bölümün tamamında arar</span></div>`:''}
+      </div>
+      <div class="panel-footer clearfix"></div>
+    </div>
+  </div>
+  </div>
+  <div class="col-xs-4">
+    <div class="col-xs-12" style="padding:5px;">
+      <div class="panel">
+        <div class="panel-ust"><div class="panel-title">SERİ</div></div>
+        <div class="panel-body padding-none">
+          <ul class="menum">
+            <li><span class="label label-warning">1</span> bölüm <span class="label pull-right">${data.length}</span></li>
+            <li><span class="label label-warning">2</span> url linki <span class="label pull-right">${st.url}</span></li>
+            <li><span class="label label-warning">3</span> mask linki <span class="label pull-right">${st.mask}</span></li>
+          </ul>
+        </div>
+        <div class="panel-footer clearfix"></div>
+      </div>
+    </div>
+    <div class="col-xs-12" style="padding:5px;">${relatedHtml(slug)}</div>
+  </div>
+  `:`<div class="col-xs-12" style="padding:5px;"><div class="empty"><div class="big">${ic('film')}</div>Bu animede bölüm kaydı yok.</div></div>`}
   `;
   document.title = `${meta.baslik} izle — tüm bölümler | TürkAnime Arşiv`;
   const ib = $('#indirBtn');
@@ -2146,6 +2472,16 @@ function renderAnime(slug, data){
       flashDone(ib, kotu === INDIRILDI ? 'indirildi ✓' : m.metin, kotu === INDIRILDI ? 1600 : m.sure, etiket);
     }).catch(()=>{ flashDone(ib, 'indirilemedi', 2200, ic('dl')+' Animeyi indir'); });
   };
+  /* 🧱 turkanime `#filtre-input-bolum`: yazdıkça bölüm satırlarını süzer
+     (`#filtre-liste{list-style:none}` + `.list-group` yapısı). */
+  const fb = document.getElementById('filtre-input-bolum');
+  if (fb) fb.addEventListener('input', debounce(()=>{
+    const q = norm(fb.value);
+    appEl().querySelectorAll('#eplist .ep').forEach(el=>{
+      const t = norm(el.textContent||'');
+      el.classList.toggle('hide', !!q && t.indexOf(q)===-1);
+    });
+  }, 150));
   appEl().querySelectorAll('.ep').forEach(el=>{
     el.onclick = ()=>{
       location.hash = '#/anime/'+encodeURIComponent(slug)+'/'+el.dataset.b;
@@ -2565,6 +2901,11 @@ function renderOptions(slug, data, bolumId){
   const cmd = `turkanime_ara.py ${slug} --bolum ${num}`;
   const ilkUrl = firstUrlLink(ep) || bolumIndirLinki(slug, ep);   // eklenenler de aday (PR1)
   appEl().innerHTML = `
+  <div class="col-xs-12">
+  <div class="col-xs-12" style="padding:5px;">
+  <div class="panel">
+    <div class="panel-ust"><div class="panel-title">TÜM SEÇENEKLER</div></div>
+    <div class="panel-body">
     <div class="crumb">
       <a href="#/ara">Arama</a><span class="sep">›</span>
       <a href="#/anime/${encodeURIComponent(slug)}">${esc(meta.baslik)}</a><span class="sep">›</span>
@@ -2591,6 +2932,11 @@ function renderOptions(slug, data, bolumId){
       <span class="lbl">Konsol komutu:</span>
       <button class="copybtn" data-cmd="${esc(cmd)}">${esc(cmd)}</button>
     </div>
+    </div>
+    <div class="panel-footer clearfix"></div>
+  </div>
+  </div>
+  </div>
   `;
   document.title = `${meta.baslik} — ${ep.ad} | TürkAnime Arşiv`;
   const ei = $('#epIndir');
@@ -2871,19 +3217,37 @@ function renderPlayer(slug, data, bolumId, playerName, idxStr){
         <button class="copybtn" data-cmd="${esc('yt-dlp -g "'+safeArg(rawUrl)+'"')}" type="button" title="-g doğrudan akış/m3u8 linkini verir">m3u8 (yt-dlp -g)</button>
         ${SERVER_OK?`<button class="copybtn" data-act="resolve" data-url="${esc(rawUrl)}" type="button">akışı çöz (m3u8/mp4)</button>`:''}
       </span>` : '';
+  /* 🧱 TürkAnime izleme sayfası iskeleti (refsayfa/izle.html · izle-yapi.txt):
+     `.panel > .panel-ust > ol.breadcrumb + .btn-group.btn-group-sm`
+     → `#videodetay.panel-body` (iframe) → `.panel-footer.clearfix`
+     (Tarih/Önceki Bölüm/Sonraki Bölüm) ve yan kolonda bölüm listesi. */
   appEl().innerHTML = `
-    ${crumb}
-    <h1 class="anime-title" style="font-size:20px">${esc(ep.ad)}</h1>
-    <div class="watch">
-      <div class="watch-top">
-        ${epNavHtml(slug, data, ep)}
+  <div class="col-xs-8">
+  <div class="col-xs-12" style="padding:5px;">
+    <div class="panel">
+      <div class="panel-ust">
+        ${crumb}
+        <div class="btn-group btn-group-sm"><span class="btn btn-sm btn-danger">${esc(pNameCur)}</span></div>
+      </div>
+      <div class="panel-body" id="videodetay" style="margin:0;padding:15px;">
         ${fansubRow}
         ${iframeHtml}
         <div class="note-soft">Player açılmadıysa (üçüncü parti host engelleyebilir) <b>kaynak linkini</b> kullan ya da yt-dlp komutuyla indir.</div>
         ${kaynakRow}
       </div>
-      ${epSideHtml(slug, data, ep)}
-      <div class="watch-bot">
+      </div>
+      <div class="panel-footer clearfix">
+        ${epNavHtml(slug, data, ep)}
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="col-xs-4">${epSideHtml(slug, data, ep)}</div>
+  <div class="col-xs-12">
+    <div class="col-xs-12" style="padding:5px;">
+      <div class="panel">
+        <div class="panel-ust"><div class="panel-title">KAYNAK</div></div>
+        <div class="panel-body">
         <div class="pmeta">
           <span class="pname">${esc(pNameCur)}</span>
           ${cur.l.eklenen?`<span class="tag eklenen" title="yönetici eklemesi (eklenen.js)">yeni</span>`:''}
@@ -2902,8 +3266,11 @@ function renderPlayer(slug, data, bolumId, playerName, idxStr){
           <span class="lbl">Konsol komutu:</span>
           <button class="copybtn" data-cmd="${esc(cmd)}">${esc(cmd)}</button>
         </div>
+        </div>
+        <div class="panel-footer clearfix"></div>
       </div>
     </div>
+  </div>
   `;
   document.title = `${meta.baslik}${ep.no!=null?' #'+ep.no:''} — ${pNameCur} | TürkAnime Arşiv`;
   bindEpSide(slug, data, ep);   // curEp: sayfalama etkin bölümü "on" tutmaya devam etsin
@@ -3152,7 +3519,7 @@ function epRow(slug, ep, data){
   const fsHtml = fs.length
     ? `<span class="pchip" style="border:none;padding:0" title="${esc(fs.map(f=>f.ad).join(' · '))}">${esc(fs.slice(0,3).map(f=>f.ad).join(' · '))}${fs.length>3?' +'+(fs.length-3):''}</span>`
     : '';
-  return `<div class="ep" data-b="${esc(bolumIdFor(ep, data))}">
+  return `<div class="ep list-group-item" data-b="${esc(bolumIdFor(ep, data))}">
     <span class="no">${ep.no!=null? '#'+esc(ep.no) : '★'}${ekRozetHtml(ep, data)}</span>
     <span class="ea">${esc(ep.ad)}</span>
     <span class="meta">
@@ -3275,7 +3642,11 @@ function navAktif(){
   const h = (location.hash||'').split('?')[0];
   const sec = (h.startsWith('#/animeler') || h.startsWith('#/anime/')) ? 'animeler'
             : h.startsWith('#/kategoriler') ? 'kategoriler' : 'ana';
-  document.querySelectorAll('.topnav a').forEach(a=> a.classList.toggle('on', a.dataset.nav===sec));
+  document.querySelectorAll('header.navbar a[data-nav]').forEach(a=>{
+    const li = a.closest('li');
+    if (li) li.classList.toggle('active', a.dataset.nav===sec);
+    a.classList.toggle('active', a.dataset.nav===sec);
+  });
 }
 
 function route(){
@@ -3344,14 +3715,14 @@ function route(){
    `ResizeObserver` yoksa `resize` olayına düşüyoruz.
    ============================================================ */
 function hdrOlc(){
-  const h = document.querySelector('header.top');
+  const h = document.querySelector('header.navbar');
   if (!h) return;
   const yuk = Math.round(h.getBoundingClientRect().height);
   if (yuk > 0) document.documentElement.style.setProperty('--hdr-h', yuk+'px');
 }
 hdrOlc();
 if (window.ResizeObserver){
-  try{ new ResizeObserver(hdrOlc).observe(document.querySelector('header.top')); }catch(e){}
+  try{ new ResizeObserver(hdrOlc).observe(document.querySelector('header.navbar')); }catch(e){}
 }else{
   window.addEventListener('resize', hdrOlc);
 }

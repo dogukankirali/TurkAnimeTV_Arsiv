@@ -20,7 +20,36 @@
 
 ### Ayrıntılar
 
-**Tema**
+**Tema — iskelet birebir (2. tur)**
+
+- İlk turda yalnız **renk katmanı** taşınmıştı (tokenlar doğruydu ama sayfa
+  iskeleti bu sitenin kendi düzeniydi). Kullanıcı geri bildirimi üzerine
+  **gerçek DOM iskeleti** taşındı.
+- Artık TürkAnime'nin **kendi CSS yığını** yükleniyor (`assets/css/`):
+  `bootstrap.min.css` (3.3.7) · `bootstrap.css` (turkanime özel, v3.3.0.19) ·
+  `style.css` (v3.3.0.23, açık tema) · `dark.css` (v3.3.0.23, koyu tema,
+  varsayılan) · `mobil.css`. Kaynak: arşivdeki 2025-26 anlık görüntüsünden
+  çözülen dosyaların aynısı. CSS'in istediği görseller de geldi
+  (`assets/imajlar/`, 16 dosya).
+- Kabuk, arşivdeki gerçek sayfadan **birebir**:
+  `<header class="navbar navbar-inverse navbar-fixed-top"><article class="container">`
+  + `ul.nav.navbar-left` / `ul.nav.navbar-right#search` + `.toggleDark`,
+  ardından `<article class="container"><div id="arkaplan">` + logo satırı +
+  `div.navbar.navbar-inverse.panel > .panel-ust > .btn-group.alphabet`
+  (A→Z çubuğu) ve `footer.clearfix > .Altkisim > .container`.
+- Görünümler de aynı dile taşındı: `.panel > .panel-ust > .panel-title`,
+  `.panel-menu > ul.panel-tabs.nav-justified`, `#orta-icerik` /
+  `#aktif-icerik`, `#filtre-input-bolum`, `.list-group-item` bölüm satırları,
+  `.menum` sıralı listeler, `.col-xs-8` / `.col-xs-4` kolonları.
+- Ölçüm (yerel render, 1280px, referans = arşivden render edilmiş gerçek sayfa):
+  `body` `rgb(46,48,57)` · `#arkaplan` `rgb(30,32,38)` · `.panel-ust`
+  `rgb(23,25,31)` · `.Altkisim` `rgb(34,36,43)` · harf çubuğu genişliği `918px`
+  · `.container` `1024px` — **referansla birebir aynı**. Yatay taşma 0 (1280 ve
+  390 px). Açık tema `#d7d7d7` / `#fff` (TürkAnime'nin açık teması).
+- Davranış korunuyor: sekme geçişi, harf çubuğu (368 seri), `#filtre-input-bolum`
+  (100 → 10 satır), tema anahtarı ve `localStorage` kalıcılığı, tüm rotalar.
+
+**Tema renkleri**
 
 - Kaynak: Wayback anlık görüntüsü `20260814102725` → `style.css?v=3.3.0.23` +
   `dark.css?v=3.3.0.23`. TürkAnime'nin 2025-26 canlı teması varsayılan olarak
